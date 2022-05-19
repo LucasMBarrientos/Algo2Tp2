@@ -5,7 +5,8 @@
  * pos:
  */
 Jugador::Jugador() {
-
+  this->cantidadDeSoldados = 0;
+  this->cantidadDeDisparos = 0;
 }
 
 /**
