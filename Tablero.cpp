@@ -1,50 +1,10 @@
-
-#include "Tablero.h"
-
-/**
- * pre:
- * pos:
+/*
+ * Tablero.cpp
+ *
+ *  Created on: 29/05/2022
+ *      Author: algo2
  */
-Tablero::Tablero() {
 
-}
 
-/**
- * pre:
- * pos:
- */
-void Tablero::inactivarCasilla(){
 
-}
-
-/**
- * pre:
- * pos:
- */
-void Tablero::colocarSoldado(){
-
-}
-
-/**
- * pre:
- * pos:
- */
-void Tablero::colocarBarco(){
-
-}
-
-/**
- * pre:
- * pos:
- */
-void Tablero::getInfoDeCasilla(){
-
-}
-
-/**
- * pre:
- * pos:
- */
-Tablero::~Tablero() {
-}
 
