@@ -18,7 +18,8 @@ class Jugador {
 		 * pre:
 		 * pos:
 		 */
-		Jugador(unsigned int id,std::string nombre);
+		Jugador(unsigned int id,std::string nombre,
+		unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos);
 
 		/**
 		 * pre:
@@ -36,26 +37,26 @@ class Jugador {
 		 * pre:
 		 * pos:
 		 */
-		void Jugador::setcantidadDeSoldados(unsigned int cantidadDeSoldados);
+		void Jugador::sumarUnSoldadoSoldados(unsigned int cantidadDeDisparos);
 
 		/**
 		 * pre:
 		 * pos:
 		 */
-		unsigned int Jugador::getcantidadDeSoldados();
-
-		/**
-		 * pre:
-		 * pos:
-		 */
-		void Jugador::setcantidadDeDisparos(unsigned int cantidadDeDisparos);
-
-		/**
-		 * pre:
-		 * pos:
-		 */
-		unsigned int Jugador::getcantidadDeDisparos();
+		void Jugador::eliminarUnSoldados();
 		
+		/**
+		 * pre:
+		 * pos:
+		 */
+		void Jugador::aumentarCantidadDisparos(unsigned int cantidadDeDisparos);
+
+		/**
+		 * pre:
+		 * pos:
+		 */
+		void Jugador::reducirCantidadDisparos(int cantidadDeDisparos);
+
 		/**
 		 * pre:
 		 * pos:
@@ -73,7 +74,6 @@ class Jugador {
 		 * pos:
 		 */
 		void eliminarSoldado();
-
 
 		/**
 		 * pre:
