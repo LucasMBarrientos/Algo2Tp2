@@ -2,47 +2,56 @@
 #ifndef BATALLACAMPAL_H_
 #define BATALLACAMPAL_H_
 
+#include "Jugador.h"
+#include "Tablero.h"
 class BatallaCampal {
 
 	private:
-
+    Jugador* ListaDeJugadores;
+    Jugador jugadorActual;
+    Tablero tablero;
+    int cantidadDeJugadores;
+    /*Carta*/
 	public:
 		/**
 		 * pre:
-		 * pos:
+		 * post: crea el objeto
 		 */
 		BatallaCampal();
 
 		/**
 		 * pre:
-		 * pos:
-		 */
-		void menuPrincipal();
-
-		/**
-		 * pre:
-		 * pos:
-		 */
-		void inicializar();
-
-		/**
-		 * pre:
-		 * pos:
+		 * post:
 		 */
 		void jugar();	// pide coordenadas al jugador y al tablero, y las valida.
 
 		/**
 		 * pre:
-		 * pos:
+		 * post: destruye el objeto
 		 */
-		bool sigueJugando();
+		~BatallaCampal();
 
+    private:
+
+    /**
+		 * pre:
+		 * post: crea el menu principal /definir como va a ser el menu
+		 */
+		void menuPrincipal();
 
 		/**
 		 * pre:
-		 * pos:
+		 * post: 
 		 */
-		~BatallaCampal();
+		void inicializar();
+
+
+    /**
+		 * pre:
+		 * post: valida si listaJugadores tiene mas de un item => devuelve true
+		 */
+		bool sigueJugando();
+		
 };
 
 #endif /* BATALLACAMPAL_H_ */
