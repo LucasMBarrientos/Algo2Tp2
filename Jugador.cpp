@@ -28,15 +28,15 @@ void Jugador::eliminarUnSoldado(){
     this->cantidadDeSoldados--;
 }
 
-void Jugador::aumentarCantidadDisparos(unsigned int cantidadDeDisparos){
-  this->cantidadDeDisparos+= cantidadDeDisparos;
+void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados){
+  this->cantidadDeDisparos += disparosAumentados;
 }
 
-void Jugador::reducirCantidadDisparos(int cantidadDeDisparos){
-    if(cantidadDeDisparos > 0){
-      throw "numero invalido positivo";
+void Jugador::reducirCantidadDisparos(unsigned int disparosReducidos){
+    if(this->cantidadDeDisparos < disparosReducidos){
+      throw "No se puede Reducir ese numero a la Cantidad de Disparos";
     }
-    this->cantidadDeDisparos-= cantidadDeDisparos;
+    this->cantidadDeDisparos -= cantidadDeDisparos;
 }
 
 void Jugador::pedirCoordenadasDeAtaque(coordenada ataque) {
