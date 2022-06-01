@@ -39,17 +39,37 @@ void Jugador::reducirCantidadDisparos(int cantidadDeDisparos){
     this->cantidadDeDisparos-= cantidadDeDisparos;
 }
 
-void Jugador::pedirCoordenadasDeAtaque(unsigned int*x , unsigned int*y , unsigned int*z) {
+void Jugador::pedirCoordenadasDeAtaque(coordenada ataque) {
+	std::cout<< "Ingrese las coordenadas del Ataque: " << endl;
+	
 	std::cout<< "Ingrese una coordenada en X: ";
-	std::cin >> &x;
+	std::cin >> ataque->x;
 	std::cout<< "Ingrese una coordenada en Y: ";
-	std::cin >> &y;
+	std::cin >> ataque->y;
 	std::cout<< "Ingrese una coordenada en Z: ";
-	std::cin >> &z;
+	std::cin >> ataque->z;
 }
 
-void Jugador::pedirCoordenadasDeMovimiento() {
+void Jugador::pedirCoordenadasDeSeleccion(coordenada seleccion) {
+	std::cout<< "Ingrese las coordenadas del Soldado a seleccionar: " << endl;
+	
+	std::cout<< "Ingrese una coordenada en X: ";
+	std::cin >> seleccion->x;
+	std::cout<< "Ingrese una coordenada en Y: ";
+	std::cin >> seleccion->y;
+	std::cout<< "Ingrese una coordenada en Z: ";
+	std::cin >> seleccion->z;
+}
 
+void Jugador::pedirCoordenadasDeMovimiento(coordenada movimiento) {
+	std::cout<< "Ingrese las coordenadas donde desea Mover al soldado: " << endl;
+	
+	std::cout<< "Ingrese una coordenada en X: ";
+	std::cin >> movimiento->x;
+	std::cout<< "Ingrese una coordenada en Y: ";
+	std::cin >> movimiento->y;
+	std::cout<< "Ingrese una coordenada en Z: ";
+	std::cin >> movimiento->z;
 }
 
 void Jugador::eliminarSoldado(){
