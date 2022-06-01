@@ -3,23 +3,59 @@
 #define JUGADOR_H_
 
 #include <string>
-
+const unsigned int MAX_JUGADORES = 1000;
 
 class Jugador {
 
 	private:
-
-		std::string identificador; //  ID del jugador (puede ser otro tipo de dato)
+		unsigned int id;
+		std::string nombre; 
 		unsigned int cantidadDeSoldados;
 		unsigned int cantidadDeDisparos;
 
 	public:
+		/**
+		 * pre:
+		 * pos:
+		 */
+		Jugador(unsigned int id,std::string nombre,
+		unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos);
 
 		/**
 		 * pre:
 		 * pos:
 		 */
-		Jugador();
+        unsigned int Jugador::obtenerId();
+		
+		/**
+		 * pre:
+		 * pos:
+		 */
+		std::string Jugador::obtenerNombre();
+
+		/**
+		 * pre:
+		 * pos:
+		 */
+		void Jugador::sumarUnSoldadoSoldados(unsigned int cantidadDeDisparos);
+
+		/**
+		 * pre:
+		 * pos:
+		 */
+		void Jugador::eliminarUnSoldados();
+		
+		/**
+		 * pre:
+		 * pos:
+		 */
+		void Jugador::aumentarCantidadDisparos(unsigned int cantidadDeDisparos);
+
+		/**
+		 * pre:
+		 * pos:
+		 */
+		void Jugador::reducirCantidadDisparos(int cantidadDeDisparos);
 
 		/**
 		 * pre:
@@ -39,7 +75,6 @@ class Jugador {
 		 */
 		void eliminarSoldado();
 
-
 		/**
 		 * pre:
 		 * pos: Libera los recursos tomados
@@ -48,3 +83,4 @@ class Jugador {
 };
 
 #endif /* JUGADOR_H_ */
+
