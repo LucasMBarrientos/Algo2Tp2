@@ -15,21 +15,21 @@ class Jugador {
 
 	public:
 		/**
-		 * pre:
-		 * pos:
+		 * pre: -
+		 * pos: Crea un jugador y establece sus atributos con los parametros recibidos.
 		 */
 		Jugador(unsigned int id,std::string nombre,
 		unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos);
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar crado.
+		 * pos: Devuelde el ID del Jugador.
 		 */
         unsigned int Jugador::obtenerId();
 		
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar crado.
+		 * pos: Devuelve el Nombre del Jugador.
 		 */
 		std::string Jugador::obtenerNombre();
 
@@ -61,13 +61,19 @@ class Jugador {
 		 * pre:
 		 * pos:
 		 */
-		void pedirCoordenadasDeAtaque();
+		void pedirCoordenadasDeAtaque(coordenada ataque);
+	
+		/**
+		 * pre:
+		 * pos:
+		 */
+		void pedirCoordenadasDeSeleccion(coordenada seleccion);
 
 		/**
 		 * pre:
 		 * pos:
 		 */
-		void pedirCoordenadasDeMovimiento();
+		void pedirCoordenadasDeMovimiento(coordenada movimiento);
 
 		/**
 		 * pre:
