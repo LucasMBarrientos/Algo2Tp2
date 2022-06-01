@@ -25,7 +25,7 @@ class Jugador {
 		 * pre: El Jugador debe estar crado.
 		 * pos: Devuelde el ID del Jugador.
 		 */
-        unsigned int Jugador::obtenerId();
+        	unsigned int Jugador::obtenerId();
 		
 		/**
 		 * pre: El Jugador debe estar crado.
@@ -34,55 +34,49 @@ class Jugador {
 		std::string Jugador::obtenerNombre();
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar creado.
+		 * pos: Aumenta en uno la cantidad de Soldados.
 		 */
-		void Jugador::sumarUnSoldadoSoldados(unsigned int cantidadDeDisparos);
+		void Jugador::sumarUnSoldado();
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar creado.
+		 * pos: Disminuye en 1 la cantidad de Soldados.
 		 */
-		void Jugador::eliminarUnSoldados();
+		void Jugador::eliminarUnSoldado();
 		
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar creado.
+		 * pos: Aumenta los Disparos posibles del jugador, sumandole lo pasado por el parametro.
 		 */
-		void Jugador::aumentarCantidadDisparos(unsigned int cantidadDeDisparos);
+		void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados);
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar creado.
+		 * pos: Disminuye los Disparos posbiles del Jugador, reduciendole lo pasado por el parametro.
 		 */
-		void Jugador::reducirCantidadDisparos(int cantidadDeDisparos);
+		void Jugador::reducirCantidadDisparos(int disparosReducidos);
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: -
+		 * pos: Le pide al Jugador que ingrese las coordenadas donde desea atacar.
 		 */
 		void pedirCoordenadasDeAtaque(coordenada ataque);
 	
 		/**
-		 * pre:
-		 * pos:
+		 * pre: -
+		 * pos: Le pide al Jugador que ingrese las coordenadas para seleccionar un Soldado.
 		 */
 		void pedirCoordenadasDeSeleccion(coordenada seleccion);
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Soldado debe estar seleccionado.
+		 * pos: Le pide al Jugador que ingrese las coordenadas donde desea mover un Soldado.
 		 */
 		void pedirCoordenadasDeMovimiento(coordenada movimiento);
 
 		/**
-		 * pre:
-		 * pos:
-		 */
-		void eliminarSoldado();
-
-		/**
-		 * pre:
+		 * pre: El Jugador debe estar creado.
 		 * pos: Libera los recursos tomados
 		 */
 		~Jugador();
