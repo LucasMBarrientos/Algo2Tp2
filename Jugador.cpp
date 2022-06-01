@@ -20,11 +20,11 @@ std::string Jugador::obtenerNombre(){
   return  this->nombre;
 }
 
-void Jugador::sumarUnSoldadoSoldados(){
+void Jugador::sumarUnSoldado(){
   this->cantidadDeSoldados++;
 }
 
-void Jugador::eliminarUnSoldados(){
+void Jugador::eliminarUnSoldado(){
     this->cantidadDeSoldados--;
 }
 
