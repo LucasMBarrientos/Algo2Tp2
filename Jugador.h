@@ -15,71 +15,72 @@ class Jugador {
 
 	public:
 		/**
-		 * pre:
-		 * pos:
+		 * pre: -
+		 * pos: Crea un jugador y establece sus atributos con los parametros recibidos.
 		 */
 		Jugador(unsigned int id,std::string nombre,
 		unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos);
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar crado.
+		 * pos: Devuelde el ID del Jugador.
 		 */
-        unsigned int Jugador::obtenerId();
+        	unsigned int Jugador::obtenerId();
 		
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar crado.
+		 * pos: Devuelve el Nombre del Jugador.
 		 */
 		std::string Jugador::obtenerNombre();
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar creado.
+		 * pos: Aumenta en uno la cantidad de Soldados.
 		 */
-		void Jugador::sumarUnSoldadoSoldados(unsigned int cantidadDeDisparos);
+		void Jugador::sumarUnSoldado();
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar creado.
+		 * pos: Disminuye en 1 la cantidad de Soldados.
 		 */
-		void Jugador::eliminarUnSoldados();
+		void Jugador::eliminarUnSoldado();
 		
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar creado.
+		 * pos: Aumenta los Disparos posibles del jugador, sumandole lo pasado por el parametro.
 		 */
-		void Jugador::aumentarCantidadDisparos(unsigned int cantidadDeDisparos);
+		void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados);
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Jugador debe estar creado.
+		 * pos: Disminuye los Disparos posbiles del Jugador, reduciendole lo pasado por el parametro.
 		 */
-		void Jugador::reducirCantidadDisparos(int cantidadDeDisparos);
+		void Jugador::reducirCantidadDisparos(int disparosReducidos);
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: -
+		 * pos: Le pide al Jugador que ingrese las coordenadas donde desea atacar.
 		 */
-		void pedirCoordenadasDeAtaque();
+		void pedirCoordenadasDeAtaque(coordenada ataque);
+	
+		/**
+		 * pre: -
+		 * pos: Le pide al Jugador que ingrese las coordenadas para seleccionar un Soldado.
+		 */
+		void pedirCoordenadasDeSeleccion(coordenada seleccion);
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: El Soldado debe estar seleccionado.
+		 * pos: Le pide al Jugador que ingrese las coordenadas donde desea mover un Soldado.
 		 */
-		void pedirCoordenadasDeMovimiento();
+		void pedirCoordenadasDeMovimiento(coordenada movimiento);
 
 		/**
-		 * pre:
-		 * pos:
-		 */
-		void eliminarSoldado();
-
-		/**
-		 * pre:
+		 * pre: El Jugador debe estar creado.
 		 * pos: Libera los recursos tomados
 		 */
 		~Jugador();
 };
 
 #endif /* JUGADOR_H_ */
+
