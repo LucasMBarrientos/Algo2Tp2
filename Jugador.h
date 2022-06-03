@@ -3,6 +3,8 @@
 #define JUGADOR_H_
 
 #include <string>
+#include "Coordenadas.h"
+
 const unsigned int MAX_JUGADORES = 1000;
 
 class Jugador {
@@ -25,62 +27,67 @@ class Jugador {
 		 * pre: El Jugador debe estar crado.
 		 * pos: Devuelde el ID del Jugador.
 		 */
-        	unsigned int Jugador::obtenerId();
+        unsigned int obtenerId();
 		
 		/**
 		 * pre: El Jugador debe estar crado.
 		 * pos: Devuelve el Nombre del Jugador.
 		 */
-		std::string Jugador::obtenerNombre();
+		std::string obtenerNombre();
 
 		/**
 		 * pre: El Jugador debe estar creado.
 		 * pos: Aumenta en uno la cantidad de Soldados.
 		 */
-		void Jugador::sumarUnSoldado();
+		void sumarUnSoldado();
 
 		/**
 		 * pre: El Jugador debe estar creado.
 		 * pos: Disminuye en 1 la cantidad de Soldados.
 		 */
-		void Jugador::eliminarUnSoldado();
+		void eliminarUnSoldado();
 		
 		/**
 		 * pre: El Jugador debe estar creado.
 		 * pos: Aumenta los Disparos posibles del jugador, sumandole lo pasado por el parametro.
 		 */
-		void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados);
+		void aumentarCantidadDisparos(unsigned int disparosAumentados);
 
 		/**
 		 * pre: El Jugador debe estar creado.
 		 * pos: Disminuye los Disparos posbiles del Jugador, reduciendole lo pasado por el parametro.
 		 */
-		void Jugador::reducirCantidadDisparos(int disparosReducidos);
+		void reducirCantidadDisparos(int disparosReducidos);
 
 		/**
 		 * pre: -
 		 * pos: Le pide al Jugador que ingrese las coordenadas donde desea atacar.
 		 */
-		void pedirCoordenadasDeAtaque(coordenada ataque);
+		Coordenada pedirCoordenadaDeAtaque();
 	
 		/**
 		 * pre: -
 		 * pos: Le pide al Jugador que ingrese las coordenadas para seleccionar un Soldado.
 		 */
-		void pedirCoordenadasDeSeleccion(coordenada seleccion);
+		Coordenada pedirCoordenadaDeSeleccion();
 
 		/**
 		 * pre: El Soldado debe estar seleccionado.
 		 * pos: Le pide al Jugador que ingrese las coordenadas donde desea mover un Soldado.
 		 */
-		void pedirCoordenadasDeMovimiento(coordenada movimiento);
+		Coordenada pedirCoordenadaDeMovimiento();
 
 		/**
 		 * pre: El Jugador debe estar creado.
 		 * pos: Libera los recursos tomados
 		 */
 		~Jugador();
-};
+
+		private: 
+		
+		Coordenada obtenerCoordenada();
+	
+	};
 
 #endif /* JUGADOR_H_ */
 

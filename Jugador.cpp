@@ -1,5 +1,7 @@
 
 #include "Jugador.h"
+#include <iostream>
+using namespace std;
 
 Jugador::Jugador(unsigned int id,std::string nombre,
 unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
@@ -32,51 +34,42 @@ void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados){
   this->cantidadDeDisparos += disparosAumentados;
 }
 
-void Jugador::reducirCantidadDisparos(unsigned int disparosReducidos){
+void Jugador::reducirCantidadDisparos(int disparosReducidos){
     if(this->cantidadDeDisparos < disparosReducidos){
       throw "No se puede Reducir ese numero a la Cantidad de Disparos";
     }
     this->cantidadDeDisparos -= cantidadDeDisparos;
 }
 
-void Jugador::pedirCoordenadasDeAtaque(coordenada ataque) {
-	std::cout<< "Ingrese las coordenadas del Ataque: " << endl;
-	
-	std::cout<< "Ingrese una coordenada en X: ";
-	std::cin >> ataque->x;
-	std::cout<< "Ingrese una coordenada en Y: ";
-	std::cin >> ataque->y;
-	std::cout<< "Ingrese una coordenada en Z: ";
-	std::cin >> ataque->z;
+Coordenada pedirCoordenadaDeAtaque(){
+	cout<< "Ingrese las coordenadas del Ataque: " << endl;
+	return obtenerCoordenada();
 }
 
-void Jugador::pedirCoordenadasDeSeleccion(coordenada seleccion) {
-	std::cout<< "Ingrese las coordenadas del Soldado a seleccionar: " << endl;
-	
-	std::cout<< "Ingrese una coordenada en X: ";
-	std::cin >> seleccion->x;
-	std::cout<< "Ingrese una coordenada en Y: ";
-	std::cin >> seleccion->y;
-	std::cout<< "Ingrese una coordenada en Z: ";
-	std::cin >> seleccion->z;
+Coordenada Jugador::pedirCoordenadaDeSeleccion() {
+	cout << "Ingrese las coordenadas del Soldado a seleccionar: " << endl;
+	return obtenerCoordenada();
 }
 
-void Jugador::pedirCoordenadasDeMovimiento(coordenada movimiento) {
-	std::cout<< "Ingrese las coordenadas donde desea Mover al soldado: " << endl;
-	
-	std::cout<< "Ingrese una coordenada en X: ";
-	std::cin >> movimiento->x;
-	std::cout<< "Ingrese una coordenada en Y: ";
-	std::cin >> movimiento->y;
-	std::cout<< "Ingrese una coordenada en Z: ";
-	std::cin >> movimiento->z;
+Coordenada Jugador::pedirCoordenadaDeMovimiento() {
+	cout << "Ingrese las coordenadas donde desea Mover al soldado: " << endl;
+	return obtenerCoordenada();
 }
 
-void Jugador::eliminarSoldado(){
-
-}
 
 Jugador::~Jugador() {
 
 }
 
+Coordenada obtenerCoordenada(){
+	unsigned int x;
+	unsigned int y;
+	unsigned int z;
+	cout<< "Ingrese una coordenada en X: "<< endl;
+	cin >> x;
+	cout<< "Ingrese una coordenada en Y: "<< endl;
+	cin >> y;
+	cout<< "Ingrese una coordenada en Z: "<< endl;
+	cin >> z;
+	return Coordenada(x,y,z);
+}
