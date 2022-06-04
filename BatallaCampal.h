@@ -4,10 +4,11 @@
 
 #include "Jugador.h"
 #include "Tablero.h"
+#include "Lista.h"
 class BatallaCampal {
 
 	private:
-    Jugador* ListaDeJugadores;
+    LLista<Jugador *>* ListaDeJugadores;
     Jugador jugadorActual;
     Tablero tablero;
     int cantidadDeJugadores;
