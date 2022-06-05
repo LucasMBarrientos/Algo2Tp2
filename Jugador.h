@@ -32,6 +32,18 @@ class Jugador {
 		 * pos: Devuelve el Nombre del Jugador.
 		 */
 		std::string Jugador::obtenerNombre();
+	
+		/**
+		 * pre: El Jugador debe estar crado.
+		 * pos: Devuelve la cantidad de Disparos del Jugador.
+		 */
+		unsigned int Jugador::obtenerCantidadDisparos();
+		
+		/**
+		 * pre: El Jugador debe estar creado.
+		 * pos: Devuelve la cantidad de Soldados del Jugador
+		 */
+		unsigned int Jugador::obtenerCantidadSoldados();
 
 		/**
 		 * pre: El Jugador debe estar creado.
