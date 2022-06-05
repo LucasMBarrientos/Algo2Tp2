@@ -10,10 +10,12 @@ BatallaCampal::BatallaCampal() {
 void BatallaCampal::menuPrincipal(){
   int soldadosPorJugador;
   cout << "Ingresar cantidad de jugadores";
-  cin << cantidadDeJugadores; 
+  cin << this->cantidadDeJugadores; 
   cout << "Ingresar cantidad de soldados";
   cin << soldadosPorJugador;
 
+  for(int i=1; i<=jugadorActual->getCantidadDeDisparos(); i++){
+    this->ListaDeJugadores = new Lista<Jugador *> ();
   //for a cantidadDeJugadores
   //listaJugadores (agregar) jugador(soldadosPorJugador)
 
@@ -22,28 +24,25 @@ void BatallaCampal::menuPrincipal(){
 
 
 void BatallaCampal::inicializar(){
-  // 
+  menuPrincipal();
 }
 
 void BatallaCampal::jugar(){
   inicalizar(); //TODO: crear la funcion
   bool juegoActivo = true;
   while(juegoActivo){
-  // if(!Carta()){
-  //  return //Si carta mata al ultimo jugador termina el juego y el turno
-  //  }
-
-  // if(!Atacar()){
-  //  return //Si Atacar mata al ultimo jugador termina el juego y el turno
-  // }
-
-  if(consultarUsuario("Desea realizar un movimiento?","Si","No")){
-    if(!mover()){
+    // if(!Carta()){
+    //  return //Si carta mata al ultimo jugador termina el juego y el turno
+    //  }
+    if(!atacar()){
       break;
     }
-  }
-
-  tablero->imprimirTablero();
+    if(consultarUsuario("Desea realizar un movimiento?","Si","No")){
+      if(!mover()){
+        break;
+      }
+    }
+    tablero->imprimirTablero();
   }
   // Mostrar ganadores
 }
@@ -97,10 +96,10 @@ bool BatallaCampal::mover(){
             if(!casillaFinal->tieneJugador(this->jugadorActual) && casillaInicio->getTipo() == casillaFinal->getTipo() && casillaFinal.getEstado() !=INACTIVA){
               if(casillaFinal.getEstado() == OCUPADO){
                 Jugador* jugadorAtacado = casillaFinal->getJugador();
-                if(casillaFinal->tieneSoldado()){ // TO VIEW: EN QUE CASOS DE COLISION SE INACTIVA UNA CASILLA, TANQUE VS SOLDADO GANA TANQUE?
+                if(casillaFinal->tieneSoldado()){
                   this->jugadorActual->eliminarUnSoldado();
                   jugadorAtacado->eliminarUnSoldado();
-                  //Repazar la lista de jugadores para eliminar jugadores sin soldados
+
                 }
                 this->jugadorActual->reducirCantidadDisparos(casillaInicio->getCantidadDisparos());
                 jugadorAtacado->reducirCantidadDisparos(casillaFinal->getCantidadDisparos());
@@ -109,6 +108,7 @@ bool BatallaCampal::mover(){
                 casillaFinal->copiarCasilla(casillaInicio);
               }
               casillaInicio->vaciar();
+              movimientoValido = true;
             }else{movimientoValido = false}
           }else{movimientoValido = false}
 
