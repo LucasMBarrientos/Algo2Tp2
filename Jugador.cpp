@@ -20,6 +20,14 @@ std::string Jugador::obtenerNombre(){
   return  this->nombre;
 }
 
+unsigned int Jugador::obtenerCantidadDisparos(){
+  return this->cantidadDeDisparos;
+}
+
+unsigned int Jugador::obtenerCantidadSoldados(){
+  return this->cantidadDeSoldados;
+}
+
 void Jugador::sumarUnSoldado(){
   this->cantidadDeSoldados++;
 }
