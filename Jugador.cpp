@@ -5,25 +5,33 @@ using namespace std;
 
 Jugador::Jugador(unsigned int id,std::string nombre,
 unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
-  if( id < 0 || id > MAX_JUGADORES){
-    throw "numero de valor invalido";
-  }
-  this->id = id;
-  this->nombre = nombre;
-  this->cantidadDeSoldados = cantidadDeSoldados;
-  this->cantidadDeDisparos = cantidadDeDisparos;
+  	if( id < 0 || id > MAX_JUGADORES){
+    	throw "numero de valor invalido";
+  	}
+  	this->id = id;
+  	this->nombre = nombre;
+  	this->cantidadDeSoldados = cantidadDeSoldados;
+  	this->cantidadDeDisparos = cantidadDeDisparos;
 }
 
 unsigned int Jugador::obtenerId(){
-  return this->id;
+	return this->id;
 }
 
-std::string Jugador::obtenerNombre(){
-  return  this->nombre;
+string Jugador::obtenerNombre(){
+	return  this->nombre;
+}
+
+unsigned int Jugador::obtenerCantidadDeDisparos(){
+	this->cantidadDeDisparos;
+}
+
+void Jugador::eliminarVariosSoldados(unsigned int cantidad){
+	this->cantidadDeSoldados -= cantidad;
 }
 
 void Jugador::sumarUnSoldado(){
-  this->cantidadDeSoldados++;
+	this->cantidadDeSoldados++;
 }
 
 void Jugador::eliminarUnSoldado(){
@@ -31,7 +39,7 @@ void Jugador::eliminarUnSoldado(){
 }
 
 void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados){
-  this->cantidadDeDisparos += disparosAumentados;
+	this->cantidadDeDisparos += disparosAumentados;
 }
 
 void Jugador::reducirCantidadDisparos(int disparosReducidos){
@@ -56,20 +64,32 @@ Coordenada Jugador::pedirCoordenadaDeMovimiento() {
 	return obtenerCoordenada();
 }
 
-
-Jugador::~Jugador() {
-
-}
-
 Coordenada obtenerCoordenada(){
-	unsigned int x;
-	unsigned int y;
-	unsigned int z;
-	cout<< "Ingrese una coordenada en X: "<< endl;
-	cin >> x;
-	cout<< "Ingrese una coordenada en Y: "<< endl;
-	cin >> y;
-	cout<< "Ingrese una coordenada en Z: "<< endl;
-	cin >> z;
+	unsigned int x = pedirNumeroEntero("Ingrese una coordenada en X: ");
+	unsigned int y = pedirNumeroEntero("Ingrese una coordenada en Y: ");
+	unsigned int z = pedirNumeroEntero("Ingrese una coordenada en Z: ");
 	return Coordenada(x,y,z);
 }
+
+void mostrarMensaje(string mensaje){
+	cout<<mensaje<<endl;
+}
+
+bool esCadenaNumerica(string cadena){
+	for(int i = 0; i<cadena.length();i++){
+		if(!isdigit(cadena[i])) return false;
+	}
+	return true;
+}
+
+int pedirNumeroEntero(string mensaje){
+	string cadena;
+	mostrarMensaje(mensaje);
+	cin>>cadena;
+	while(esCadenaNumerica(cadena)){
+		mostrarMensaje("Invalido, ingrese un nuevo numero:");
+		cin>>cadena;
+	}
+	return stoi(cadena);
+}
+

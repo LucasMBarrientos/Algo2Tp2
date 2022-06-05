@@ -30,10 +30,22 @@ class Jugador {
         unsigned int obtenerId();
 		
 		/**
-		 * pre: El Jugador debe estar crado.
+		 * pre: El Jugador debe estar creado.
 		 * pos: Devuelve el Nombre del Jugador.
 		 */
 		std::string obtenerNombre();
+
+		/**
+		 * pre: El Jugador debe estar creado.
+		 * pos: Devuelve la catidad de disparos que posee el jugador.
+		 */
+		unsigned int obtenerCantidadDeDisparos();
+
+		/**
+		 * pre: El Jugador debe estar creado.
+		 * pos: Le resta la cantidad de soldados al jugador que se paso por parametro.
+		 */
+		void eliminarVariosSoldados(unsigned int cantidad);
 
 		/**
 		 * pre: El Jugador debe estar creado.
@@ -76,16 +88,6 @@ class Jugador {
 		 * pos: Le pide al Jugador que ingrese las coordenadas donde desea mover un Soldado.
 		 */
 		Coordenada pedirCoordenadaDeMovimiento();
-
-		/**
-		 * pre: El Jugador debe estar creado.
-		 * pos: Libera los recursos tomados
-		 */
-		~Jugador();
-
-		private: 
-		
-		Coordenada obtenerCoordenada();
 	
 	};
 
