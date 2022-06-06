@@ -3,52 +3,63 @@
 #include <iostream>
 using namespace std;
 
-BatallaCampal::BatallaCampal() {
-  this->jugadorActual = 1;
+BatallaCampal::BatallaCampal(){
+  this->jugadorActual = NULL;
+  this->cantidadDeJugadores=0;
+  this->tablero=NULL;
+  this->ListaDeJugadores=NULL;
 }
 
-void BatallaCampal::menuPrincipal(){
+int BatallaCampal::menuPrincipal(){
   int soldadosPorJugador;
   cout << "Ingresar cantidad de jugadores";
-  cin << this->cantidadDeJugadores; 
+  cin >> this->cantidadDeJugadores;
   cout << "Ingresar cantidad de soldados";
-  cin << soldadosPorJugador;
-
-  for(int i=1; i<=jugadorActual->getCantidadDeDisparos(); i++){
-    this->ListaDeJugadores = new Lista<Jugador *> ();
-  //for a cantidadDeJugadores
-  //listaJugadores (agregar) jugador(soldadosPorJugador)
-
-  //crear tablero
+  cin >> soldadosPorJugador;
+  return soldadosPorJugador;
 }
 
 
 void BatallaCampal::inicializar(){
-  menuPrincipal();
+	this->ListaDeJugadores = new Lista<Jugador*>();
+	int soldadosPorJugador = menuPrincipal();
+	for(int i = 1; i <= this->cantidadDeJugadores; i++){
+		string nombreJugador;
+		cout << "Ingrese el nombre del jugador " << i <<": ";
+		cin >> nombreJugador;
+		Jugador* jugador = new Jugador(i,nombreJugador,soldadosPorJugador,soldadosPorJugador);
+		this->ListaDeJugadores->agregar(jugador);
+	}
+	this->jugadorActual = this->ListaDeJugadores->obtener(1);
+
+	//CREAR TABLERO
 }
 
 void BatallaCampal::jugar(){
-  inicalizar(); //TODO: crear la funcion
-  bool juegoActivo = true;
+	inicializar();
+	bool juegoActivo = true;
   while(juegoActivo){
-    // if(!Carta()){
-    //  return //Si carta mata al ultimo jugador termina el juego y el turno
-    //  }
-    if(!atacar()){
-      break;
-    }
-    if(consultarUsuario("Desea realizar un movimiento?","Si","No")){
-      if(!mover()){
-        break;
-      }
-    }
-    tablero->imprimirTablero();
+	  cout << "TURNO DE " << this->jugadorActual->obtenerNombre() << endl;
+  // if(!Carta()){
+  //  return //Si carta mata al ultimo jugador termina el juego y el turno
+  //  }
+
+	  if(!atacar()){
+	        break;
+	      }
+	      if(consultarUsuario("Desea realizar un movimiento?","Si","No")){
+	        if(!mover()){
+	          break;
+	        }
+	  }
+
+  //tablero->imprimirTablero();
   }
   // Mostrar ganadores
 }
 
 bool BatallaCampal::sigueJugando(){
-  // devuelve si la lista de jugadores tiene al menos 2 items
+  return true;// devuelve si la lista de jugadores tiene al menos 2 items
 }
 
 void BatallaCampal::eliminarJugador(){
@@ -56,88 +67,87 @@ void BatallaCampal::eliminarJugador(){
 }
 
 bool BatallaCampal::atacar(){
-  for(int i=1; i<=jugadorActual->getCantidadDeDisparos(); i++){//falta implementar getCantidadDeDisparos()
+  for(int i=1; i<=/*jugadorActual->getCantidadDeDisparos()*/1; i++){//falta implementar getCantidadDeDisparos()
     bool ataqueValido = false;
-    do 
+    do{
       Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeAtaque();
-      if(this->tablero->existeLaCasilla(coordenadaSeleccionada)){//Tiene que pasarle cada dato de la coordenada o el tipo coordenada entero?
-        Casilla* casillaAtacada = this->tablero->getCasilla(coordenadaSeleccionada);
+      if(this->tablero->existeLaCasilla(/*coordenadaSeleccionada*/1,1,1)){//Tiene que pasarle cada dato de la coordenada o el tipo coordenada entero?
+        Casilla* casillaAtacada = this->tablero->getCasilla(/*coordenadaSeleccionada*/1,1,1);
         if(!casillaAtacada->tieneJugador(this->jugadorActual)){
-          if(casillaAtacada.getEstado() == OCUPADO){
+          if(/*casillaAtacada.getEstado() == OCUPADO*/true){
             Jugador* jugadorAtacado = casillaAtacada->getJugador();
-            if(casillaAtacada->tieneSoldado()){
+            if(/*casillaAtacada->tieneSoldado()*/true){
               jugadorAtacado->eliminarUnSoldado();
               //Repazar la lista de jugadores para eliminar jugadores sin soldados
             }
-            jugadorAtacado->reducirCantidadDisparos(casillaFinal->getCantidadDisparos());
+            jugadorAtacado->reducirCantidadDisparos(/*casillaAtacada->getCantidadDisparos()*/1);
             casillaAtacada->vaciar();
             casillaAtacada->inactivar();
-            
-          }else{ataqueValido = true}
-        }else{ataqueValido = false}
+
+          }else{ataqueValido = true;}
+        }else{ataqueValido = false;}
       }
-    while(!ataqueValido)
+    }while(!ataqueValido);
   }
   return sigueJugando();
-} 
+}
 
 bool BatallaCampal::mover(){
-  bool coordenadaInicialValida = false;
-  do 
-    Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeSeleccion();
-    if(this->tablero->existeLaCasilla(coordenadaSeleccionada)){//Tiene que pasarle cada dato de la coordenada o el tipo coordenada entero?
-      Casilla* casillaInicio = this->tablero->getCasilla(coordenadaSeleccionada);
-      if(casillaInicio->tieneJugador(this->jugadorActual)){ 
-        bool movimientoValido = false;
-        do
-          Coordenada movimientoSeleccionado = this->jugadorActual->pedirCoordenadaDeMovimiento();
-          if(this->tablero->existeLaCasilla(movimientoSeleccionado)){//Tiene que pasarle cada dato de la coordenada o el tipo coordenada entero?
-            Casilla* casillaFinal = this->tablero->getCasilla(coordenadaSeleccionada);
-            if(!casillaFinal->tieneJugador(this->jugadorActual) && casillaInicio->getTipo() == casillaFinal->getTipo() && casillaFinal.getEstado() !=INACTIVA){
-              if(casillaFinal.getEstado() == OCUPADO){
-                Jugador* jugadorAtacado = casillaFinal->getJugador();
-                if(casillaFinal->tieneSoldado()){
-                  this->jugadorActual->eliminarUnSoldado();
-                  jugadorAtacado->eliminarUnSoldado();
+	bool coordenadaInicialValida = false;
 
-                }
-                this->jugadorActual->reducirCantidadDisparos(casillaInicio->getCantidadDisparos());
-                jugadorAtacado->reducirCantidadDisparos(casillaFinal->getCantidadDisparos());
-                casillaFinal->inactivar();
-              }else{
-                casillaFinal->copiarCasilla(casillaInicio);
-              }
-              casillaInicio->vaciar();
-              movimientoValido = true;
-            }else{movimientoValido = false}
-          }else{movimientoValido = false}
+	do{
+		Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeSeleccion();
+		if(this->tablero->existeLaCasilla(/*coordenadaSeleccionada*/1,1,1)){//Tiene que pasarle cada dato de la coordenada o el tipo coordenada entero?
+		  Casilla* casillaInicio = this->tablero->getCasilla(/*coordenadaSeleccionada*/1,1,1);
+		  if(casillaInicio->tieneJugador(this->jugadorActual)){
+			  bool movimientoValido = false;
+			  bool sigueSeleccionando = true;
 
-          if(!movimientoValido){
-            cout<< "El movimiento no es valido."
-            if(consultarUsuario("Desea seleccionar otro soldado?","Seleccionar otra ficha","Mover a otra casilla")){
-              break;
-            }
-          }
-        while(!movimientoValido)
-      }else{coordenadaInicialValida = false}
-    }else{coordenadaInicialValida = false}
-  while(!coordenadaInicialValida)
-
+			  do{
+				  Coordenada movimientoSeleccionado = this->jugadorActual->pedirCoordenadaDeMovimiento();
+			  	  if(this->tablero->existeLaCasilla(/*movimientoSeleccionado*/1,1,1)){//Tiene que pasarle cada dato de la coordenada o el tipo coordenada entero?
+			  		  Casilla* casillaFinal = this->tablero->getCasilla(/*coordenadaSeleccionada*/1,1,1);
+			  		  if(!casillaFinal->tieneJugador(this->jugadorActual) && casillaInicio->getTipo() == casillaFinal->getTipo() && casillaFinal->getEstado() !=INACTIVA){
+			  			  if(casillaFinal->getEstado() == OCUPADA){
+			  				  Jugador* jugadorAtacado = casillaFinal->getJugador();
+			  				  if(/*casillaFinal->tieneSoldado()*/true){ // TO VIEW: EN QUE CASOS DE COLISION SE INACTIVA UNA CASILLA, TANQUE VS SOLDADO GANA TANQUE?
+			  					  this->jugadorActual->eliminarUnSoldado();
+			  					  jugadorAtacado->eliminarUnSoldado();
+			  					  //Repazar la lista de jugadores para eliminar jugadores sin soldados
+			  				  }
+			  				  this->jugadorActual->reducirCantidadDisparos(/*casillaInicio->getCantidadDisparos()*/1);
+			  				  jugadorAtacado->reducirCantidadDisparos(/*casillaFinal->getCantidadDisparos()*/1);
+			  				  casillaFinal->inactivar();
+			  			  }/*else{
+			  				  //casillaFinal->copiarCasilla(casillaInicio);
+			  			  }*/
+			  			  casillaInicio->vaciar();
+			  		  }else{movimientoValido = false;}
+			  	  }else{movimientoValido = false;}
+			  	  if(!movimientoValido){
+			  		  cout<< "El movimiento no es valido.";
+			  		  sigueSeleccionando =consultarUsuario("Desea seleccionar otro soldado?","Seleccionar otra ficha","Mover a otra casilla");
+			  	  }
+			  }while(!movimientoValido && sigueSeleccionando);
+		  }else{coordenadaInicialValida = false;}
+		}else{coordenadaInicialValida = false;}
+	}while(!coordenadaInicialValida);
   return sigueJugando();
-} 
+}
 
 bool BatallaCampal::consultarUsuario(string pregunta, string opciontrue, string opcionFalse){
-  do
-    cout<< pregunta << endl;
-    cout<< "0 -> " << opciontrue << endl;
-    cout<< "1 -> " << opcionFalse << endl;
-    cin >> opcionElegida;
-  while(opcionElegida != 0 && opcionElegida != 1)
-  if(opcionElegida == 0){
-    return true
-  }else{
-    return false
-  }
+	unsigned int opcionElegida;
+	do{
+		cout<< pregunta << endl;
+		cout<< "0 -> " << opciontrue << endl;
+		cout<< "1 -> " << opcionFalse << endl;
+		cin >> opcionElegida;
+	}while(opcionElegida != 0 && opcionElegida != 1);
+	  if(opcionElegida == 0){
+		return true;
+	  }else{
+		return false;
+	  }
 }
 
 

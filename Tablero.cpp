@@ -1,4 +1,3 @@
-
 #include "Tablero.h"
 
 /**
@@ -50,7 +49,7 @@ void Tablero::transformarDatoDeCasilla(EstadoDeCasilla& estadoDeCasilla, TipoDeC
 	switch (estadoDeCasilla) {
 		case INACTIVA: salidaEstadoDeCasilla = 'I'; break;
 		case VACIA: salidaEstadoDeCasilla = 'E'; break;
-		case OCUPADA: numeroDeJugador = ficha->getJugador()->getnumero(); break;
+		case OCUPADA: numeroDeJugador = /*ficha->getJugador()->getnumero()*/1; break;
 	}
 
 	switch (tipoDeCasilla){
@@ -237,4 +236,3 @@ Tablero::~Tablero() {
 	delete this->tablero; //elimina tablero
 
 }
-

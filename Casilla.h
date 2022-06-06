@@ -1,4 +1,3 @@
-
 #ifndef CASILLA_H_
 #define CASILLA_H_
 

@@ -1,4 +1,3 @@
-
 #ifndef TABLERO_H_
 #define TABLERO_H_
 

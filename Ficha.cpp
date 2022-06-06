@@ -1,4 +1,3 @@
-
 #include "Ficha.h"
 
 Ficha::Ficha(TipoDeFicha tipo, Jugador* jugador) {
@@ -41,4 +40,3 @@ Jugador* Ficha::getJugador() {
  */
 Ficha::~Ficha() {
 }
-

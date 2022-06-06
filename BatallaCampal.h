@@ -1,16 +1,17 @@
-
 #ifndef BATALLACAMPAL_H_
 #define BATALLACAMPAL_H_
 
 #include "Jugador.h"
 #include "Tablero.h"
 #include "Lista.h"
+#include "Coordenadas.h"
+#include <string>
 class BatallaCampal {
 
 	private:
-    LLista<Jugador *>* ListaDeJugadores;
-    Jugador jugadorActual;
-    Tablero tablero;
+    Lista<Jugador *>* ListaDeJugadores;
+    Jugador* jugadorActual;
+    Tablero* tablero;
     int cantidadDeJugadores;
     /*Carta*/
 	public:
@@ -38,21 +39,25 @@ class BatallaCampal {
 		 * pre:
 		 * post: crea el menu principal /definir como va a ser el menu
 		 */
-		void menuPrincipal();
+		int menuPrincipal();
 
 		/**
 		 * pre:
-		 * post: 
+		 * post:
 		 */
 		void inicializar();
 
-
+		bool atacar();
+		bool mover();
+		void eliminarJugador();
     /**
 		 * pre:
 		 * post: valida si listaJugadores tiene mas de un item => devuelve true
 		 */
 		bool sigueJugando();
-		
+
+		bool consultarUsuario(std::string pregunta, std::string opciontrue, std::string opcionFalse);
+
 };
 
 #endif /* BATALLACAMPAL_H_ */
