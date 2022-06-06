@@ -1,38 +1,43 @@
 
 #include "Jugador.h"
 #include <iostream>
-using namespace std;
 #include <cstdlib>
+
+using namespace std;
 
 Jugador::Jugador(unsigned int id,std::string nombre,
 unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
-  	if( id < 0 || id > MAX_JUGADORES){
-    	throw "numero de valor invalido";
-  	}
-  	this->id = id;
-  	this->nombre = nombre;
-  	this->cantidadDeSoldados = cantidadDeSoldados;
-  	this->cantidadDeDisparos = cantidadDeDisparos;
-}
-
-unsigned int Jugador::obtenerId(){
-	return this->id;
-}
-
-string Jugador::obtenerNombre(){
-	return  this->nombre;
-}
-
-unsigned int Jugador::obtenerCantidadDeDisparos(){
-	return this->cantidadDeDisparos;
+  if( id < 0 || id > MAX_JUGADORES){
+    throw "numero de valor invalido";
+  }
+  this->id = id;
+  this->nombre = nombre;
+  this->cantidadDeSoldados = cantidadDeSoldados;
+  this->cantidadDeDisparos = cantidadDeDisparos;
 }
 
 void Jugador::eliminarVariosSoldados(unsigned int cantidad){
 	this->cantidadDeSoldados -= cantidad;
 }
 
+unsigned int Jugador::obtenerId(){
+	return this->id;
+}
+
+std::string Jugador::obtenerNombre(){
+  return  this->nombre;
+}
+
+unsigned int Jugador::obtenerCantidadDisparos(){
+  return this->cantidadDeDisparos;
+}
+
+unsigned int Jugador::obtenerCantidadSoldados(){
+  return this->cantidadDeSoldados;
+}
+
 void Jugador::sumarUnSoldado(){
-	this->cantidadDeSoldados++;
+  this->cantidadDeSoldados++;
 }
 
 void Jugador::eliminarUnSoldado(){
@@ -40,7 +45,7 @@ void Jugador::eliminarUnSoldado(){
 }
 
 void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados){
-	this->cantidadDeDisparos += disparosAumentados;
+  this->cantidadDeDisparos += disparosAumentados;
 }
 
 void Jugador::reducirCantidadDisparos(unsigned int disparosReducidos){
@@ -94,9 +99,6 @@ Coordenada Jugador::pedirCoordenadaDeMovimiento() {
 	return obtenerCoordenada();
 }
 
+Jugador::~Jugador() {
 
-
-
-
-
-
+}
