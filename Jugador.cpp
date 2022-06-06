@@ -2,6 +2,7 @@
 #include "Jugador.h"
 #include <iostream>
 using namespace std;
+#include <cstdlib>
 
 Jugador::Jugador(unsigned int id,std::string nombre,
 unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
@@ -23,7 +24,7 @@ string Jugador::obtenerNombre(){
 }
 
 unsigned int Jugador::obtenerCantidadDeDisparos(){
-	this->cantidadDeDisparos;
+	return this->cantidadDeDisparos;
 }
 
 void Jugador::eliminarVariosSoldados(unsigned int cantidad){
@@ -42,14 +43,43 @@ void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados){
 	this->cantidadDeDisparos += disparosAumentados;
 }
 
-void Jugador::reducirCantidadDisparos(int disparosReducidos){
+void Jugador::reducirCantidadDisparos(unsigned int disparosReducidos){
     if(this->cantidadDeDisparos < disparosReducidos){
       throw "No se puede Reducir ese numero a la Cantidad de Disparos";
     }
     this->cantidadDeDisparos -= cantidadDeDisparos;
 }
 
-Coordenada pedirCoordenadaDeAtaque(){
+void mostrarMensaje(string mensaje){
+	cout<<mensaje<<endl;
+}
+
+bool esCadenaNumerica(string cadena){
+	for(unsigned int i = 0; i<cadena.length();i++){
+		if(!isdigit(cadena[i])) return false;
+	}
+	return true;
+}
+
+int pedirNumeroEntero(string mensaje){
+	string cadena;
+	mostrarMensaje(mensaje);
+	cin>>cadena;
+	while(!esCadenaNumerica(cadena)){
+		mostrarMensaje("Invalido, ingrese un nuevo numero:");
+		cin>>cadena;
+	}
+	return atoi(cadena.c_str());
+}
+
+Coordenada obtenerCoordenada(){
+	unsigned int x = pedirNumeroEntero("Ingrese una coordenada en X: ");
+	unsigned int y = pedirNumeroEntero("Ingrese una coordenada en Y: ");
+	unsigned int z = pedirNumeroEntero("Ingrese una coordenada en Z: ");
+	return Coordenada(x,y,z);
+}
+
+Coordenada Jugador::pedirCoordenadaDeAtaque(){
 	cout<< "Ingrese las coordenadas del Ataque: " << endl;
 	return obtenerCoordenada();
 }
@@ -64,32 +94,9 @@ Coordenada Jugador::pedirCoordenadaDeMovimiento() {
 	return obtenerCoordenada();
 }
 
-Coordenada obtenerCoordenada(){
-	unsigned int x = pedirNumeroEntero("Ingrese una coordenada en X: ");
-	unsigned int y = pedirNumeroEntero("Ingrese una coordenada en Y: ");
-	unsigned int z = pedirNumeroEntero("Ingrese una coordenada en Z: ");
-	return Coordenada(x,y,z);
-}
 
-void mostrarMensaje(string mensaje){
-	cout<<mensaje<<endl;
-}
 
-bool esCadenaNumerica(string cadena){
-	for(int i = 0; i<cadena.length();i++){
-		if(!isdigit(cadena[i])) return false;
-	}
-	return true;
-}
 
-int pedirNumeroEntero(string mensaje){
-	string cadena;
-	mostrarMensaje(mensaje);
-	cin>>cadena;
-	while(esCadenaNumerica(cadena)){
-		mostrarMensaje("Invalido, ingrese un nuevo numero:");
-		cin>>cadena;
-	}
-	return stoi(cadena);
-}
+
+
 

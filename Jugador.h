@@ -69,7 +69,7 @@ class Jugador {
 		 * pre: El Jugador debe estar creado.
 		 * pos: Disminuye los Disparos posbiles del Jugador, reduciendole lo pasado por el parametro.
 		 */
-		void reducirCantidadDisparos(int disparosReducidos);
+		void reducirCantidadDisparos(unsigned int disparosReducidos);
 
 		/**
 		 * pre: -
