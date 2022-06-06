@@ -1,5 +1,7 @@
 #include "Jugador.h"
 #include <iostream>
+#include <cstdlib>
+
 using namespace std;
 
 Jugador::Jugador(unsigned int id,std::string nombre,
@@ -11,14 +13,25 @@ unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
   this->nombre = nombre;
   this->cantidadDeSoldados = cantidadDeSoldados;
   this->cantidadDeDisparos = cantidadDeDisparos;
+
+void Jugador::eliminarVariosSoldados(unsigned int cantidad){
+	this->cantidadDeSoldados -= cantidad;
 }
 
 unsigned int Jugador::obtenerId(){
-  return this->id;
+	return this->id;
 }
 
 std::string Jugador::obtenerNombre(){
   return  this->nombre;
+}
+
+unsigned int Jugador::obtenerCantidadDisparos(){
+  return this->cantidadDeDisparos;
+}
+
+unsigned int Jugador::obtenerCantidadSoldados(){
+  return this->cantidadDeSoldados;
 }
 
 void Jugador::sumarUnSoldado(){
@@ -33,11 +46,40 @@ void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados){
   this->cantidadDeDisparos += disparosAumentados;
 }
 
-void Jugador::reducirCantidadDisparos(int disparosReducidos){
+void Jugador::reducirCantidadDisparos(unsigned int disparosReducidos){
     if(this->cantidadDeDisparos < disparosReducidos){
       throw "No se puede Reducir ese numero a la Cantidad de Disparos";
     }
     this->cantidadDeDisparos -= cantidadDeDisparos;
+}
+
+void mostrarMensaje(string mensaje){
+	cout<<mensaje<<endl;
+}
+
+bool esCadenaNumerica(string cadena){
+	for(unsigned int i = 0; i<cadena.length();i++){
+		if(!isdigit(cadena[i])) return false;
+	}
+	return true;
+}
+
+int pedirNumeroEntero(string mensaje){
+	string cadena;
+	mostrarMensaje(mensaje);
+	cin>>cadena;
+	while(!esCadenaNumerica(cadena)){
+		mostrarMensaje("Invalido, ingrese un nuevo numero:");
+		cin>>cadena;
+	}
+	return atoi(cadena.c_str());
+}
+
+Coordenada obtenerCoordenada(){
+	unsigned int x = pedirNumeroEntero("Ingrese una coordenada en X: ");
+	unsigned int y = pedirNumeroEntero("Ingrese una coordenada en Y: ");
+	unsigned int z = pedirNumeroEntero("Ingrese una coordenada en Z: ");
+	return Coordenada(x,y,z);
 }
 
 Coordenada Jugador::pedirCoordenadaDeAtaque(){
@@ -55,20 +97,6 @@ Coordenada Jugador::pedirCoordenadaDeMovimiento() {
 	return obtenerCoordenada();
 }
 
-
 Jugador::~Jugador() {
 
-}
-
-Coordenada Jugador::obtenerCoordenada(){
-	unsigned int x;
-	unsigned int y;
-	unsigned int z;
-	cout<< "Ingrese una coordenada en X: "<< endl;
-	cin >> x;
-	cout<< "Ingrese una coordenada en Y: "<< endl;
-	cin >> y;
-	cout<< "Ingrese una coordenada en Z: "<< endl;
-	cin >> z;
-	return Coordenada(x,y,z);
 }
