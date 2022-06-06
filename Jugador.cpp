@@ -6,13 +6,14 @@ using namespace std;
 
 Jugador::Jugador(unsigned int id,std::string nombre,
 unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
-  if( id < 0 || id > MAX_JUGADORES){
-    throw "numero de valor invalido";
-  }
-  this->id = id;
-  this->nombre = nombre;
-  this->cantidadDeSoldados = cantidadDeSoldados;
-  this->cantidadDeDisparos = cantidadDeDisparos;
+  	if( id < 0 || id > MAX_JUGADORES){
+    	throw "numero de valor invalido";
+  	}
+  	this->id = id;
+  	this->nombre = nombre;
+  	this->cantidadDeSoldados = cantidadDeSoldados;
+  	this->cantidadDeDisparos = cantidadDeDisparos;
+}
 
 void Jugador::eliminarVariosSoldados(unsigned int cantidad){
 	this->cantidadDeSoldados -= cantidad;
@@ -22,20 +23,24 @@ unsigned int Jugador::obtenerId(){
 	return this->id;
 }
 
-std::string Jugador::obtenerNombre(){
-  return  this->nombre;
+string Jugador::obtenerNombre(){
+	return  this->nombre;
 }
 
-unsigned int Jugador::obtenerCantidadDisparos(){
-  return this->cantidadDeDisparos;
+unsigned int Jugador::obtenerCantidadDeDisparos(){
+	return this->cantidadDeDisparos;
 }
 
-unsigned int Jugador::obtenerCantidadSoldados(){
+unsigned int Jugador::obtenerCantidadDeDisparosMisil(){
+	return this->cantidadDeDisparosMisil;
+}
+
+unsigned int Jugador::obtenerCantidadDeSoldados(){
   return this->cantidadDeSoldados;
 }
 
 void Jugador::sumarUnSoldado(){
-  this->cantidadDeSoldados++;
+	this->cantidadDeSoldados++;
 }
 
 void Jugador::eliminarUnSoldado(){
@@ -43,7 +48,7 @@ void Jugador::eliminarUnSoldado(){
 }
 
 void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados){
-  this->cantidadDeDisparos += disparosAumentados;
+	this->cantidadDeDisparos += disparosAumentados;
 }
 
 void Jugador::reducirCantidadDisparos(unsigned int disparosReducidos){
@@ -51,6 +56,17 @@ void Jugador::reducirCantidadDisparos(unsigned int disparosReducidos){
       throw "No se puede Reducir ese numero a la Cantidad de Disparos";
     }
     this->cantidadDeDisparos -= cantidadDeDisparos;
+}
+
+void Jugador::aumentarCantidadDisparosMisil(unsigned int disparosAumentados){
+	this->cantidadDeDisparosMisil += disparosAumentados;
+}
+
+void Jugador::reducirCantidadDisparosMisil(unsigned int disparosReducidos){
+    if(this->cantidadDeDisparosMisil < disparosReducidos){
+      throw "No se puede Reducir ese numero a la Cantidad de Disparos";
+    }
+    this->cantidadDeDisparosMisil -= cantidadDeDisparos;
 }
 
 void mostrarMensaje(string mensaje){
