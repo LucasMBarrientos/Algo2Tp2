@@ -46,7 +46,10 @@ void Tablero::transformarDatoDeCasilla(EstadoDeCasilla& estadoDeCasilla, TipoDeC
 	switch (estadoDeCasilla) {
 		case INACTIVA: salidaEstadoDeCasilla = 'I'; break;
 		case VACIA: salidaEstadoDeCasilla = 'E'; break;
-		case OCUPADA: numeroDeJugador = ficha->getJugador()->obtenerId(); break;
+		case OCUPADA: {
+			salidaEstadoDeCasilla = 'O';
+			numeroDeJugador = ficha->getJugador()->obtenerId();
+			break;}
 	}
 
 	switch (tipoDeCasilla){
@@ -178,7 +181,7 @@ void Tablero::validarRangoDeCoordenadas(unsigned int x, unsigned int y, unsigned
 	if((y < 1) || (y > this->yMaximo)){
 		throw std::string("La dimension y debe ser mayor o igual a 1 y menor o igual que yMaximo");
 	}
-	if((z < 1) || (x > this->xMaximo)){
+	if((z < 1) || (z > this->zMaximo)){
 		throw std::string("La dimension z debe ser mayor o igual a 1 y menor o igual que zMaximo");
 	}
 }

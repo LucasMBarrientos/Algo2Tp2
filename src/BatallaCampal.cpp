@@ -61,15 +61,14 @@ void BatallaCampal::inicializar(){
 	//LLENAR TABLERO
 	for (unsigned int x = 1; x <= this->cantidadDeJugadores; x++){
 			for (unsigned int y = 1; y <= soldadosPorJugador; y++){
-
 				try{
 					Ficha* ficha = new Ficha(SOLDADO,this->ListaDeJugadores->obtener(x));
-					this->tablero->colocarFicha(x,y,1,ficha,this->jugadorActual);
+					this->tablero->colocarFicha(x,y,1,ficha,this->ListaDeJugadores->obtener(x));
 				} catch (string mensajeError){
 					cout << "Ocurrio un error en la ejecucion: " + mensajeError << endl;
 				}
 			}
-		}
+	}
 }
 
 void BatallaCampal::cambiarTurno(){
@@ -135,7 +134,7 @@ void BatallaCampal::eliminarJugador(Jugador* jugador){
 		posicion++;
 		if(this->ListaDeJugadores->obtenerCursor() == jugador){
 			this->ListaDeJugadores->remover(posicion);
-			delete jugador;/*PROBAR*/
+			delete jugador;
 		}
 
 	}
@@ -148,15 +147,12 @@ bool BatallaCampal::atacar(){
     	Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeAtaque();
     	if(this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
     		Casilla* casillaAtacada = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
-    		
-        if(casillaAtacada->getEstado() == OCUPADA){
+    		if(casillaAtacada->getEstado() == OCUPADA){
 				if(!casillaAtacada->tieneJugador(this->jugadorActual)){
-
 					Jugador* jugadorAtacado = casillaAtacada->getJugador();
 					switch (casillaAtacada->getFicha()->getTipo()) {
 						case SOLDADO: {
 							jugadorAtacado->eliminarUnSoldado();
-							jugadorAtacado->reducirCantidadDisparos(1);
 							if(jugadorAtacado->obtenerCantidadDeSoldados() == 0){
 								eliminarJugador(jugadorAtacado);
 							}
@@ -178,12 +174,11 @@ bool BatallaCampal::atacar(){
 							break;
 						}
 					}
-					casillaAtacada->vaciar();
 					casillaAtacada->inactivar();
 					ataqueValido = true;
-				}else{ataqueValido = true;}
+				}else{cout<< "No te podes atacar a vos mismo, intente otra vez" << endl;}
 			}else{ataqueValido = true;}
-      }
+    	}else{cout<< "Coordenada fuera de tablero, intente otra vez" << endl;}
     }while(!ataqueValido);
   }
   return sigueJugando();
@@ -196,7 +191,12 @@ void BatallaCampal::elegirMovimiento(Casilla* casillaInicio) {
 		Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeMovimiento();
 		if (this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
 			Casilla* casillaFinal = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
-			if (!casillaFinal->tieneJugador(this->jugadorActual) && casillaInicio->getTipo() == casillaFinal->getTipo() && casillaFinal->getEstado() != INACTIVA) {
+			if (casillaInicio->getTipo() == casillaFinal->getTipo()
+					/*&& validarMovimiento(casillaInicio,casillaFinal)*/
+					&& casillaFinal->getEstado() != INACTIVA/*
+					&& !casillaFinal->tieneJugador(this->jugadorActual)*/
+					) {
+
 				if (casillaFinal->getEstado() == OCUPADA) {
 					Jugador* jugadorAtacado = casillaFinal->getJugador();
 
@@ -231,10 +231,10 @@ void BatallaCampal::elegirMovimiento(Casilla* casillaInicio) {
 				}
 				casillaInicio->vaciar();
 			} else {
-				movimientoValido = false;
+				cout<< "Movimiento invalido, intente otra vez" << endl;
 			}
 		} else {
-			movimientoValido = false;
+			cout<< "Coordenada fuera de tablero, intente otra vez" << endl;
 		}
 		if (!movimientoValido) {
 			cout << "El movimiento no es valido.";
@@ -259,6 +259,16 @@ bool BatallaCampal::mover(){
   return sigueJugando();
 }
 
+bool BatallaCampal::validarMovimiento(Casilla* casillaInicio, Casilla* casillaFinal){
+	int diferenciaEnX = casillaInicio->getX() - casillaFinal->getX();
+	int diferenciaEnY = casillaInicio->getY() - casillaFinal->getY();
+	int diferenciaEnZ = casillaInicio->getZ() - casillaFinal->getZ();
+
+	float modulo = sqrt(pow(diferenciaEnX,2) + pow(diferenciaEnY,2) + pow(diferenciaEnZ,2));
+
+	return (modulo == 1);
+}
+
 bool BatallaCampal::consultarUsuario(string pregunta, string opciontrue, string opcionFalse){
 	unsigned int opcionElegida;
 	do{
@@ -273,6 +283,7 @@ bool BatallaCampal::consultarUsuario(string pregunta, string opciontrue, string 
 		return false;
 	  }
 }
+
 
 
 BatallaCampal::~BatallaCampal() {

@@ -7,6 +7,7 @@
 #include "Ficha.h"
 #include "Coordenadas.h"
 #include <string>
+#include <cmath>
 class BatallaCampal {
 
 	private:
@@ -60,6 +61,7 @@ class BatallaCampal {
 		bool consultarUsuario(std::string pregunta, std::string opciontrue, std::string opcionFalse);
 		void elegirMovimiento(Casilla* casillaInicio);
 		void cambiarTurno();
+		bool validarMovimiento(Casilla* casillaInicio, Casilla* casillaFinal);
 };
 
 #endif /* BATALLACAMPAL_H_ */
