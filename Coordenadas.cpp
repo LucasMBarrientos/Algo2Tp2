@@ -1,4 +1,3 @@
-
 #include "Coordenadas.h"
 
 Coordenada::Coordenada(){

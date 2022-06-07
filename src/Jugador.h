@@ -6,15 +6,21 @@
 
 const unsigned int MAX_JUGADORES = 1000;
 
+enum Permiso{
+	BLOQUEADO,
+	HABILITADO,
+};
+
 class Jugador {
 
 	private:
 		unsigned int id;
 		std::string nombre; 
+		Permiso estado;
 		unsigned int cantidadDeSoldados;
 		unsigned int cantidadDeDisparos;
 		unsigned int cantidadDeDisparosMisil;
-
+		unsigned int cantidadDeDisparosTanque;
 	public:
 
 		/**
@@ -41,13 +47,33 @@ class Jugador {
 		 * pre: El Jugador debe estar crado.
 		 * pos: Devuelve la cantidad de Disparos del Jugador.
 		 */
-		unsigned int obtenerCantidadDeDisparos();
+		unsigned int obtenerCantidadDisparos();
     
 		/**
 		 * pre: El Jugador debe estar creado.
 		 * pos: Devuelve la catidad de disparos misil que posee el jugador.
 		 */
 		unsigned int obtenerCantidadDeDisparosMisil();
+
+		/**
+		 * pre: El Jugador debe estar creado.
+		 * pos: Devuelve la catidad de disparos misil que posee el jugador.
+		 */
+		unsigned int obtenerCantidadDeDisparosTanque();
+
+		Permiso obtenerPermiso();
+		/**
+		 * pre: El Jugador debe estar creado.
+		 * pos: Devuelve la catidad de disparos misil que posee el jugador.
+		 */
+		void bloquearJugador();
+
+
+		/**
+		 * pre: El Jugador debe estar creado.
+		 * pos: Devuelve la catidad de disparos misil que posee el jugador.
+		 */
+		void habilitarJugador();
 
 		/**
 		 * pre: El Jugador debe estar creado.
@@ -96,7 +122,18 @@ class Jugador {
 		 * pos: Disminuye los Disparos misil posbiles del Jugador, reduciendole lo pasado por el parametro.
 		 */
 		void reducirCantidadDisparosMisil(unsigned int disparosReducidos);
+		
+		/**
+		 * pre: El Jugador debe estar creado.
+		 * pos: Aumenta los Disparos misil posibles del jugador, sumandole lo pasado por el parametro.
+		 */
+		void aumentarCantidadDisparosTanque(unsigned int disparosAumentados);
 
+		/**
+		 * pre: El Jugador debe estar creado.
+		 * pos: Disminuye los Disparos misil posbiles del Jugador, reduciendole lo pasado por el parametro.
+		 */
+		void reducirCantidadDisparosTanque(unsigned int disparosReducidos);
 		/**
 		 * pre: -
 		 * pos: Le pide al Jugador que ingrese las coordenadas donde desea atacar.
