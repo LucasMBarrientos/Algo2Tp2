@@ -8,6 +8,7 @@ BatallaCampal::BatallaCampal(){
   this->cantidadDeJugadores=0;
   this->tablero=NULL;
   this->ListaDeJugadores=NULL;
+  //this->carta = new carta;
 }
 
 int BatallaCampal::menuPrincipal(){
@@ -27,63 +28,146 @@ void BatallaCampal::inicializar(){
 		string nombreJugador;
 		cout << "Ingrese el nombre del jugador " << i <<": ";
 		cin >> nombreJugador;
-		Jugador* jugador = new Jugador(i,nombreJugador,soldadosPorJugador,soldadosPorJugador);
+		Jugador* jugador = new Jugador(i,nombreJugador,soldadosPorJugador,1);
 		this->ListaDeJugadores->agregar(jugador);
 	}
+
 	this->jugadorActual = this->ListaDeJugadores->obtener(1);
 
 	//CREAR TABLERO
+	this->tablero = new Tablero(10,10,3);
+	for (unsigned int x = 1; x <= this->tablero->getXMaximo(); x++){
+		for (unsigned int y = 1; y <= this->tablero->getYMaximo(); y++){
+			try{
+				this->tablero->getCasilla(x,y,1)->setTipo(TIERRA);
+			} catch (string mensajeError){
+				cout << "Ocurrio un error en la ejecucion: " + mensajeError << endl;
+			}
+		}
+	}
+
+	for (unsigned int x = 1; x <= this->tablero->getXMaximo(); x++){
+		for (unsigned int y = 1; y <= this->tablero->getYMaximo(); y++){
+			for (unsigned int z = 2; z <= this->tablero->getZMaximo(); z++){
+				try{
+					this->tablero->getCasilla(x,y,z)->setTipo(AIRE);
+				} catch (string mensajeError){
+					cout << "Ocurrio un error en la ejecucion: " + mensajeError << endl;
+				}
+			}
+		}
+	}
+
+	//LLENAR TABLERO
+	for (unsigned int x = 1; x <= this->cantidadDeJugadores; x++){
+			for (unsigned int y = 1; y <= soldadosPorJugador; y++){
+
+				try{
+					Ficha* ficha = new Ficha(SOLDADO,this->ListaDeJugadores->obtener(x));
+					this->tablero->getCasilla(x,y,1)->setFicha(ficha);
+				} catch (string mensajeError){
+					cout << "Ocurrio un error en la ejecucion: " + mensajeError << endl;
+				}
+			}
+		}
 }
 
 void BatallaCampal::jugar(){
 	inicializar();
 	bool juegoActivo = true;
-  while(juegoActivo){
-	  cout << "TURNO DE " << this->jugadorActual->obtenerNombre() << endl;
-  // if(!Carta()){
-  //  return //Si carta mata al ultimo jugador termina el juego y el turno
-  //  }
+	while(juegoActivo){
+		cout << "TURNO DE " << this->jugadorActual->obtenerNombre() << endl;
 
-	  if(!atacar()){
-	        break;
-	      }
-	      if(consultarUsuario("Desea realizar un movimiento?","Si","No")){
-	        if(!mover()){
-	          break;
-	        }
-	  }
+		this->tablero->imprimirTablero();
 
-  //tablero->imprimirTablero();
+		if(!atacar()){
+			break;
+		}
+
+		if(consultarUsuario("Desea realizar un movimiento?","Si","No")){
+			if(!mover()){
+				break;
+			}
+		}
+
+		//this->carta->darUnaCartaAleatoria();
+		//this->carta->ejecutarCarta(this->jugadorActual, this->tablero, this->ListaDeJugadores));
+
+
+		juegoActivo = sigueJugando();
   }
-  // Mostrar ganadores
+  if(this->ListaDeJugadores->estaVacia()){
+	  cout << "EMPATE" << endl;
+  }else{
+	  cout << "GANADOR JUGADOR " << this->ListaDeJugadores->obtener(1)->obtenerNombre() << endl;
+  }
 }
 
 bool BatallaCampal::sigueJugando(){
-  return true;// devuelve si la lista de jugadores tiene al menos 2 items
+	this->ListaDeJugadores->iniciarCursor();
+	if(this->ListaDeJugadores->contarElementos() > 2){
+		return true;
+	}else{
+		return false;
+	}
 }
 
-void BatallaCampal::eliminarJugador(){
-  // busco un jugador en la lista de jugadores y lo elimino por tener soldados = 0
+void BatallaCampal::eliminarJugador(Jugador* jugador){
+	this->ListaDeJugadores->iniciarCursor();
+	unsigned int posicion = 0;
+	while(this->ListaDeJugadores->avanzarCursor()){
+		posicion++;
+		if(this->ListaDeJugadores->obtenerCursor() == jugador){
+			this->ListaDeJugadores->remover(posicion);
+			delete jugador;/*PROBAR*/
+		}
+
+	}
 }
 
 bool BatallaCampal::atacar(){
-  for(int i=1; i<=/*jugadorActual->getCantidadDeDisparos()*/1; i++){//falta implementar getCantidadDeDisparos()
+  for(int i=1; i<=jugadorActual->obtenerCantidadDeDisparos(); i++){
+
     bool ataqueValido = false;
     do{
+
       Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeAtaque();
-      if(this->tablero->existeLaCasilla(/*coordenadaSeleccionada*/1,1,1)){//Tiene que pasarle cada dato de la coordenada o el tipo coordenada entero?
-        Casilla* casillaAtacada = this->tablero->getCasilla(/*coordenadaSeleccionada*/1,1,1);
+      if(this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
+
+    	  Casilla* casillaAtacada = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
         if(!casillaAtacada->tieneJugador(this->jugadorActual)){
-          if(/*casillaAtacada.getEstado() == OCUPADO*/true){
-            Jugador* jugadorAtacado = casillaAtacada->getJugador();
-            if(/*casillaAtacada->tieneSoldado()*/true){
-              jugadorAtacado->eliminarUnSoldado();
-              //Repazar la lista de jugadores para eliminar jugadores sin soldados
+
+        	if(casillaAtacada->getEstado() == OCUPADA){
+
+        		Jugador* jugadorAtacado = casillaAtacada->getJugador();
+            switch (casillaAtacada->getFicha()->getTipo()) {
+            	case SOLDADO: {
+            		jugadorAtacado->eliminarUnSoldado();
+            		jugadorAtacado->reducirCantidadDisparos(1);
+            		if(jugadorAtacado->obtenerCantidadDeSoldados() == 0){
+            			eliminarJugador(jugadorAtacado);
+            		}
+            		break;
+            	}
+            	case AVION: {
+            		jugadorAtacado->reducirCantidadDisparos(2);
+            		break;
+            	}
+            	case BARCO: {
+            		jugadorAtacado->reducirCantidadDisparosMisil(1);
+            		break;
+            	}
+            	/*case TANQUE: {
+            		jugadorAtacado->reducirCantidadDisparosTanque(1);
+            		break;
+            	}
+            	case MINA: {
+            		break;
+            	}*/
             }
-            jugadorAtacado->reducirCantidadDisparos(/*casillaAtacada->getCantidadDisparos()*/1);
             casillaAtacada->vaciar();
             casillaAtacada->inactivar();
-
+            ataqueValido = true;
           }else{ataqueValido = true;}
         }else{ataqueValido = false;}
       }
@@ -92,43 +176,70 @@ bool BatallaCampal::atacar(){
   return sigueJugando();
 }
 
+void BatallaCampal::elegirMovimiento(Casilla* casillaInicio) {
+	bool movimientoValido = false;
+	bool sigueSeleccionando = true;
+	do {
+		Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeMovimiento();
+		if (this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
+			Casilla* casillaFinal = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
+			if (!casillaFinal->tieneJugador(this->jugadorActual) && casillaInicio->getTipo() == casillaFinal->getTipo() && casillaFinal->getEstado() != INACTIVA) {
+				if (casillaFinal->getEstado() == OCUPADA) {
+					Jugador* jugadorAtacado = casillaFinal->getJugador();
+
+					switch (casillaFinal->getFicha()->getTipo()) {
+						case SOLDADO: {
+					    	jugadorAtacado->eliminarUnSoldado();
+					        jugadorAtacado->reducirCantidadDisparos(1);
+					        if(jugadorAtacado->obtenerCantidadDeSoldados() == 0){
+					        	eliminarJugador(jugadorAtacado);
+					        }
+					        break;
+					    }
+					    case AVION: {
+							jugadorAtacado->reducirCantidadDisparos(2);
+							break;
+					    }
+					    case BARCO: {
+							jugadorAtacado->reducirCantidadDisparosMisil(1);
+							break;
+					    }
+					    /*case TANQUE: {
+							jugadorAtacado->reducirCantidadDisparosTanque(1);
+							break;
+					    }
+					    case MINA: {
+					    	break;
+					    }*/
+					}
+					casillaFinal->inactivar();
+				}else{
+					casillaFinal = casillaInicio; /*PROBAR*/
+				}
+				casillaInicio->vaciar();
+			} else {
+				movimientoValido = false;
+			}
+		} else {
+			movimientoValido = false;
+		}
+		if (!movimientoValido) {
+			cout << "El movimiento no es valido.";
+			sigueSeleccionando = consultarUsuario(
+					"Desea seleccionar otro soldado?", "Seleccionar otra ficha",
+					"Mover a otra casilla");
+		}
+	} while (!movimientoValido && sigueSeleccionando);
+}
+
 bool BatallaCampal::mover(){
 	bool coordenadaInicialValida = false;
-
 	do{
 		Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeSeleccion();
-		if(this->tablero->existeLaCasilla(/*coordenadaSeleccionada*/1,1,1)){//Tiene que pasarle cada dato de la coordenada o el tipo coordenada entero?
-		  Casilla* casillaInicio = this->tablero->getCasilla(/*coordenadaSeleccionada*/1,1,1);
+		if(this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
+		  Casilla* casillaInicio = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
 		  if(casillaInicio->tieneJugador(this->jugadorActual)){
-			  bool movimientoValido = false;
-			  bool sigueSeleccionando = true;
-
-			  do{
-				  Coordenada movimientoSeleccionado = this->jugadorActual->pedirCoordenadaDeMovimiento();
-			  	  if(this->tablero->existeLaCasilla(/*movimientoSeleccionado*/1,1,1)){//Tiene que pasarle cada dato de la coordenada o el tipo coordenada entero?
-			  		  Casilla* casillaFinal = this->tablero->getCasilla(/*coordenadaSeleccionada*/1,1,1);
-			  		  if(!casillaFinal->tieneJugador(this->jugadorActual) && casillaInicio->getTipo() == casillaFinal->getTipo() && casillaFinal->getEstado() !=INACTIVA){
-			  			  if(casillaFinal->getEstado() == OCUPADA){
-			  				  Jugador* jugadorAtacado = casillaFinal->getJugador();
-			  				  if(/*casillaFinal->tieneSoldado()*/true){ // TO VIEW: EN QUE CASOS DE COLISION SE INACTIVA UNA CASILLA, TANQUE VS SOLDADO GANA TANQUE?
-			  					  this->jugadorActual->eliminarUnSoldado();
-			  					  jugadorAtacado->eliminarUnSoldado();
-			  					  //Repazar la lista de jugadores para eliminar jugadores sin soldados
-			  				  }
-			  				  this->jugadorActual->reducirCantidadDisparos(/*casillaInicio->getCantidadDisparos()*/1);
-			  				  jugadorAtacado->reducirCantidadDisparos(/*casillaFinal->getCantidadDisparos()*/1);
-			  				  casillaFinal->inactivar();
-			  			  }/*else{
-			  				  //casillaFinal->copiarCasilla(casillaInicio);
-			  			  }*/
-			  			  casillaInicio->vaciar();
-			  		  }else{movimientoValido = false;}
-			  	  }else{movimientoValido = false;}
-			  	  if(!movimientoValido){
-			  		  cout<< "El movimiento no es valido.";
-			  		  sigueSeleccionando =consultarUsuario("Desea seleccionar otro soldado?","Seleccionar otra ficha","Mover a otra casilla");
-			  	  }
-			  }while(!movimientoValido && sigueSeleccionando);
+				elegirMovimiento(casillaInicio);
 		  }else{coordenadaInicialValida = false;}
 		}else{coordenadaInicialValida = false;}
 	}while(!coordenadaInicialValida);
@@ -152,5 +263,5 @@ bool BatallaCampal::consultarUsuario(string pregunta, string opciontrue, string 
 
 
 BatallaCampal::~BatallaCampal() {
-  // borrar todos los datos
+	delete this->tablero;
 }

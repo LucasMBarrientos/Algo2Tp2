@@ -15,17 +15,17 @@ class Coordenada{
 
         Coordenada(unsigned int x,unsigned int y,unsigned int z);
 
-        void cambiarCoodenadaX(unsigned int x);
+        void cambiarCoordenadaX(unsigned int x);
 
-        void cambiarCoodenadaY(unsigned int y);
+        void cambiarCoordenadaY(unsigned int y);
 
-        void cambiarCoodenadaZ(unsigned int z);
+        void cambiarCoordenadaZ(unsigned int z);
 
-        unsigned int obtenerCoodenadaX();
+        unsigned int obtenerCoordenadaX();
 
-        unsigned int obtenerCoodenadaY();
+        unsigned int obtenerCoordenadaY();
 
-        unsigned int obtenerCoodenadaZ();
+        unsigned int obtenerCoordenadaZ();
 
 
 };

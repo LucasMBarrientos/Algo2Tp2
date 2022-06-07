@@ -91,13 +91,6 @@ int pedirNumeroEntero(string mensaje){
 	return atoi(cadena.c_str());
 }
 
-Coordenada obtenerCoordenada(){
-	unsigned int x = pedirNumeroEntero("Ingrese una coordenada en X: ");
-	unsigned int y = pedirNumeroEntero("Ingrese una coordenada en Y: ");
-	unsigned int z = pedirNumeroEntero("Ingrese una coordenada en Z: ");
-	return Coordenada(x,y,z);
-}
-
 Coordenada Jugador::pedirCoordenadaDeAtaque(){
 	cout<< "Ingrese las coordenadas del Ataque: " << endl;
 	return obtenerCoordenada();
@@ -111,6 +104,13 @@ Coordenada Jugador::pedirCoordenadaDeSeleccion() {
 Coordenada Jugador::pedirCoordenadaDeMovimiento() {
 	cout << "Ingrese las coordenadas donde desea Mover al soldado: " << endl;
 	return obtenerCoordenada();
+}
+
+Coordenada Jugador::obtenerCoordenada(){
+	unsigned int x = pedirNumeroEntero("Ingrese una coordenada en X: ");
+	unsigned int y = pedirNumeroEntero("Ingrese una coordenada en Y: ");
+	unsigned int z = pedirNumeroEntero("Ingrese una coordenada en Z: ");
+	return Coordenada(x,y,z);
 }
 
 Jugador::~Jugador() {

@@ -49,7 +49,7 @@ void Tablero::transformarDatoDeCasilla(EstadoDeCasilla& estadoDeCasilla, TipoDeC
 	switch (estadoDeCasilla) {
 		case INACTIVA: salidaEstadoDeCasilla = 'I'; break;
 		case VACIA: salidaEstadoDeCasilla = 'E'; break;
-		case OCUPADA: numeroDeJugador = ficha->getJugador()->obtenerId; break;
+		case OCUPADA: numeroDeJugador = ficha->getJugador()->obtenerId(); break;
 	}
 
 	switch (tipoDeCasilla){

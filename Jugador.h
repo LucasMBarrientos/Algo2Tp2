@@ -59,7 +59,7 @@ class Jugador {
 		 * pre: El Jugador debe estar creado.
 		 * pos: Devuelve la cantidad de Soldados del Jugador
 		 */
-		unsigned int obtenerCantidadSoldados();
+		unsigned int obtenerCantidadDeSoldados();
 
 		/**
 		 * pre: El Jugador debe estar creado.
