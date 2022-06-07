@@ -97,7 +97,3 @@ Coordenada Jugador::pedirCoordenadaDeMovimiento() {
 	cout << "Ingrese las coordenadas donde desea Mover al soldado: " << endl;
 	return obtenerCoordenada();
 }
-
-Jugador::~Jugador() {
-
-}
