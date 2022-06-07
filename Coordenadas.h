@@ -1,4 +1,3 @@
-
 #ifndef COORDENADAS_H_
 #define COORDENADAS_H_
 
@@ -28,8 +27,7 @@ class Coordenada{
 
         unsigned int getZ();
 
-        
+
 };
 
 #endif /* Coordenadas_H_ */
-
