@@ -46,7 +46,7 @@ class Jugador {
 		 * pre: El Jugador debe estar crado.
 		 * pos: Devuelve la cantidad de Disparos del Jugador.
 		 */
-		unsigned int obtenerCantidadDeDisparos();
+		unsigned int obtenerCantidadDisparos();
     
     /**
 		 * pre: El Jugador debe estar creado.

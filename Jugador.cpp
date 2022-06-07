@@ -13,6 +13,7 @@ unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
   this->nombre = nombre;
   this->cantidadDeSoldados = cantidadDeSoldados;
   this->cantidadDeDisparos = cantidadDeDisparos;
+}
 
 void Jugador::eliminarVariosSoldados(unsigned int cantidad){
 	this->cantidadDeSoldados -= cantidad;
