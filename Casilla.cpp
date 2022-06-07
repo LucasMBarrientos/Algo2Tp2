@@ -1,3 +1,4 @@
+
 #include "Casilla.h"
 
 
@@ -73,10 +74,17 @@ void Casilla::vaciar(){
 	this->setEstado(VACIA);
 }
 
+/*
+ */
+void Casilla::ocupar(){ //------------------------------------------------------------------------lo sobrecargué
+	this->setEstado(OCUPADA);
+}
+
 /**
  */
-void Casilla::ocupar(){
-	this->setEstado(OCUPADA);
+void Casilla::ocupar(Ficha* ficha, Jugador* jugador){ //------------------------------------------------------------------------debería setear una ficha tambien!!
+	this->setFicha(ficha);
+	this->getFicha()->setJugador(jugador);
 }
 
 /**
@@ -106,6 +114,9 @@ unsigned int Casilla::getZ() {
 /**
  */
 Ficha* Casilla::getFicha(){//----------------------------------------¿¿ diferencia con Ficha*& ??
+	if(ficha == NULL){
+		throw std::string("La casilla debe tener una ficha");
+	}
 	return this->ficha;
 }
 

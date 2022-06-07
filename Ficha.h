@@ -1,3 +1,4 @@
+
 #ifndef FICHA_H_
 #define FICHA_H_
 
@@ -7,6 +8,7 @@ enum TipoDeFicha{
 	SOLDADO,
 	AVION,
 	BARCO,
+	TANQUE,
 
 };
 
@@ -45,12 +47,6 @@ class Ficha {
 		 */
 		Jugador* getJugador();
 
-
-		/*
-		 * pre:-
-		 * pos: Destruye la ficha.
-		 */
-		virtual ~Ficha();
 };
 
 #endif /* FICHA_H_ */

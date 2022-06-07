@@ -1,11 +1,14 @@
+
 #ifndef TABLERO_H_
 #define TABLERO_H_
-
-#include <iostream>
 
 #include "Casilla.h"
 #include "Lista.h"
 
+#include "EasyBMP.h"
+
+#include <iostream>
+#include <string>
 
 class Tablero {
 
@@ -29,6 +32,12 @@ class Tablero {
 		 * pos: Imprime por consola el tablero de juego.
 		 */
 		void imprimirTablero();
+
+		/**
+		 * pre:-
+		 * pos: guarda en un archivo *.bmp el tablero de juego.
+		 */
+		void exportarTableroAArchivo(unsigned int tamanioDeCasillasSalida, Jugador* jugadorActual);
 
 		/**
 		 * pre:-
@@ -109,6 +118,40 @@ class Tablero {
 		 * pos: Muestra por consola los datos de una casilla del tablero.
 		 */
 		void imprimirCasilla(EstadoDeCasilla &estadoDeCasilla, TipoDeCasilla &tipoDeCasilla, Ficha* ficha);
+
+		/**
+		 * pre:-
+		 * pos: Escribe en el archivo la casilla con su estado y tipo correspodiente;
+		 * 		además de la ficha y numero de jugador si hubiere.
+		 */
+		void escribirEnArchivo(BMP &imagen,
+				unsigned int tamanioDeCasillasSalida, BMP &imagenSalida,
+				unsigned int haciaX, unsigned int haciaY);
+
+		/*
+		 * pre:
+		 * pos:
+		 */
+		void escribirInactiva(BMP &imagen,
+				unsigned int tamanioDeCasillasSalida, BMP &imagenSalida,
+				unsigned int haciaX, unsigned int haciaY);
+
+		/*
+		 * pre:
+		 * pos:
+		 */
+		void escribirVacia(TipoDeCasilla tipoDeCasilla, unsigned int tamanioDeCasillasSalida, BMP& imagenSalida,
+				unsigned int haciaX, unsigned int haciaY);
+
+		/*
+		 * pre:
+		 * pos:
+		 */
+	void escribirOcupada(Ficha* ficha,
+			unsigned int tamanioDeCasillasSalida, BMP& imagenSalida,
+			unsigned int haciaX, unsigned int haciaY);
+
+
 
 
 

@@ -1,8 +1,7 @@
+
 #include "Tablero.h"
 
 /**
- * pre:
- * pos:
  */
 Tablero::Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMaximo) {
 
@@ -26,15 +25,13 @@ Tablero::Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMaxim
 		for(unsigned int y = 1; y <= this->yMaximo; y++){
 			this->tablero->obtener(x)->agregar(new Lista<Casilla*>()); //crea lista
 			for(unsigned int z = 1; z <= this->zMaximo; z++){
-				this->tablero->obtener(x)->obtener(y)->agregar(new Casilla(x,y,z, USO_GENERAL)); //agrega casilleros
+				this->tablero->obtener(x)->obtener(y)->agregar(new Casilla(x,y,z, USO_GENERAL)); //agrega casillas
 			}
 		}
 	}
 }
 
 /**
- * pre: Si ficha != NULL, el estadoDeCasilla debe estar OCUPADA
- * pos: Convierte en char los datos de estado, tipo y ficha.
  */
 void Tablero::transformarDatoDeCasilla(EstadoDeCasilla& estadoDeCasilla, TipoDeCasilla& tipoDeCasilla, Ficha* ficha,
 		char &salidaEstadoDeCasilla, char &salidaTipoDeCasilla, char &salidaTipoDeFicha, unsigned int &numeroDeJugador) {
@@ -64,6 +61,7 @@ void Tablero::transformarDatoDeCasilla(EstadoDeCasilla& estadoDeCasilla, TipoDeC
 			case SOLDADO: salidaTipoDeFicha = 'S'; break;
 			case AVION: salidaTipoDeFicha = 'V'; break;
 			case BARCO: salidaTipoDeFicha = 'B'; break;
+			case TANQUE: salidaTipoDeFicha = 'T'; break;
 		}
 	} else {
 		salidaTipoDeFicha = 'n';
@@ -73,8 +71,6 @@ void Tablero::transformarDatoDeCasilla(EstadoDeCasilla& estadoDeCasilla, TipoDeC
 
 
 /**
- * pre:-
- * pos:
  */
 void Tablero::imprimirCasilla(EstadoDeCasilla &estadoDeCasilla, TipoDeCasilla &tipoDeCasilla, Ficha* ficha){
 
@@ -111,9 +107,9 @@ void Tablero::imprimirTablero() {
 		std::cout << "nivel z = " << z << std::endl;
 		for (unsigned int y = 1; y <= this->yMaximo; y++) {
 			for (unsigned int x = 1; x <= this->xMaximo; x++) {
-				estadoDeCasilla = this->tablero->obtener(x)->obtener(y)->obtener(z)->getEstado();
-				tipoDeCasilla = this->tablero->obtener(x)->obtener(y)->obtener(z)->getTipo();
-				ficha = this->tablero->obtener(x)->obtener(y)->obtener(z)->getFicha();
+				estadoDeCasilla = this->getCasilla(x,y,z)->getEstado();
+				tipoDeCasilla = this->getCasilla(x,y,z)->getTipo();
+				ficha = this->getCasilla(x,y,z)->getFicha();
 
 				imprimirCasilla(estadoDeCasilla, tipoDeCasilla, ficha);
 
@@ -129,8 +125,6 @@ void Tablero::imprimirTablero() {
 
 
 /**
- * pre:-
- * pos:
  */
 unsigned int Tablero::getXMaximo(){
 	return this->xMaximo;
@@ -138,16 +132,12 @@ unsigned int Tablero::getXMaximo(){
 }
 
 /**
- * pre:
- * pos:
  */
 unsigned int Tablero::getYMaximo(){
 	return this->yMaximo;
 }
 
 /**
- * pre:
- * pos:
  */
 unsigned int Tablero::getZMaximo(){
 	return this->zMaximo;
@@ -155,8 +145,6 @@ unsigned int Tablero::getZMaximo(){
 
 
 /**
- * pre:
- * pos:
  */
 Casilla* Tablero::getCasilla(unsigned int x , unsigned int y, unsigned int z){
 	validarRangoDeCoordenadas(x, y, z);
@@ -165,32 +153,24 @@ Casilla* Tablero::getCasilla(unsigned int x , unsigned int y, unsigned int z){
 }
 
 /**
- * pre:
- * pos:
  */
 void Tablero::colocarSoldado(){ //----------------------------------------------------------¿¿debería encargarse Ficha??
 
 }
 
 /**
- * pre:
- * pos:
  */
 void Tablero::colocarBarco(){ //----------------------------------------------------------¿¿debería encargarse Ficha??
 
 }
 
 /**
- * pre:
- * pos:
  */
 void Tablero::getInfoDeCasilla(){ // NO IMPLEMENTADO. Se encarga Casilla.
 
 }
 
 /**
- * pre:-
- * pos:
  */
 void Tablero::validarRangoDeCoordenadas(unsigned int x, unsigned int y, unsigned int z){
 
@@ -206,8 +186,6 @@ void Tablero::validarRangoDeCoordenadas(unsigned int x, unsigned int y, unsigned
 }
 
 /**
- * pre:-
- * pos:
  */
 bool Tablero::existeLaCasilla(unsigned int x, unsigned int y, unsigned int z){
 
@@ -219,15 +197,13 @@ bool Tablero::existeLaCasilla(unsigned int x, unsigned int y, unsigned int z){
 }
 
 /**
- * pre:-
- * pos:
  */
 Tablero::~Tablero() {
 
 	for(unsigned int x = 1; x <= this->xMaximo; x++){
 		for(unsigned int y = 1; y <= this->yMaximo; y++){
 			for(unsigned int z = 1; z <= this->zMaximo; z++){
-				delete this->tablero->obtener(x)->obtener(y)->obtener(z); //elimina casillero
+				delete this->tablero->obtener(x)->obtener(y)->obtener(z); //elimina casilla
 			}
 			delete this->tablero->obtener(x)->obtener(y);//elimina lista
 		}
@@ -235,4 +211,148 @@ Tablero::~Tablero() {
 	}
 	delete this->tablero; //elimina tablero
 
+}
+
+/*
+ */
+void Tablero::escribirEnArchivo(BMP &imagen,
+		unsigned int tamanioDeCasillasSalida, BMP &imagenSalida,
+		unsigned int haciaX, unsigned int haciaY) {
+
+	Rescale( imagen, 'f' , tamanioDeCasillasSalida);
+	imagen.SetBitDepth( 8 );
+	imagenSalida.SetBitDepth( 8 );
+
+	RangedPixelToPixelCopy(imagen, 0, 100, 100, 0, imagenSalida, haciaX, haciaY); //-----------------------------
+
+}
+
+/*
+ */
+void Tablero::escribirVacia(TipoDeCasilla tipoDeCasilla, unsigned int tamanioDeCasillasSalida, BMP& imagenSalida,
+		unsigned int haciaX, unsigned int haciaY) {
+
+	BMP imagenTipoDeCasilla;
+
+
+	switch(tipoDeCasilla){
+
+	case TIERRA: imagenTipoDeCasilla.ReadFromFile("tipoCasilla/tierra.bmp");
+				 escribirEnArchivo(imagenTipoDeCasilla,tamanioDeCasillasSalida,imagenSalida,haciaX,haciaY);
+				 break;
+
+	case AGUA: imagenTipoDeCasilla.ReadFromFile("tipoCasilla/agua.bmp");
+	 	 	   escribirEnArchivo(imagenTipoDeCasilla,tamanioDeCasillasSalida,imagenSalida,haciaX,haciaY);
+	 	 	   break;
+
+	case AIRE: imagenTipoDeCasilla.ReadFromFile("tipoCasilla/aire.bmp");
+	   	   	   escribirEnArchivo(imagenTipoDeCasilla,tamanioDeCasillasSalida,imagenSalida,haciaX,haciaY);
+	   	   	   break;
+
+	case USO_GENERAL:
+	default:  throw std::string("No hay imágen que mostrar");
+
+	}
+}
+
+/*
+ */
+void Tablero::escribirOcupada(Ficha* ficha,
+		unsigned int tamanioDeCasillasSalida, BMP& imagenSalida,
+		unsigned int haciaX, unsigned int haciaY) {
+
+	TipoDeFicha tipoDeFicha = ficha->getTipo();
+//	unsigned int numeroDeJugador = ficha->getJugador()->getnumero();
+
+	BMP imagenTipoDeFicha;
+//	BMP imagenNumero; //<<---------------------------------------------------------------------------------------------ALEJANDRO
+
+	switch(tipoDeFicha){
+
+	case SOLDADO: imagenTipoDeFicha.ReadFromFile("fichas/soldado.bmp");
+				 escribirEnArchivo(imagenTipoDeFicha,tamanioDeCasillasSalida,imagenSalida,haciaX,haciaY);
+				 break;
+
+	case AVION: imagenTipoDeFicha.ReadFromFile("fichas/avion.bmp");
+	 	 	   escribirEnArchivo(imagenTipoDeFicha,tamanioDeCasillasSalida,imagenSalida,haciaX,haciaY);
+	 	 	   break;
+
+	case BARCO: imagenTipoDeFicha.ReadFromFile("fichas/barco.bmp");
+	   	   	   escribirEnArchivo(imagenTipoDeFicha,tamanioDeCasillasSalida,imagenSalida,haciaX,haciaY);
+	   	   	   break;
+
+	case TANQUE: imagenTipoDeFicha.ReadFromFile("fichas/tanque.bmp");
+	   	   	   escribirEnArchivo(imagenTipoDeFicha,tamanioDeCasillasSalida,imagenSalida,haciaX,haciaY);
+	   	   	   break;
+
+	}
+
+}
+
+/**
+ */
+void Tablero::exportarTableroAArchivo(unsigned int tamanioDeCasillasSalida, Jugador* jugadorActual){
+
+		unsigned int xMaximoArchivoSalida = tamanioDeCasillasSalida * this->xMaximo;
+		unsigned int yMaximoArchivoSalida = tamanioDeCasillasSalida * this->yMaximo;
+
+
+//.................................................................................................
+
+
+	for (unsigned int z = 1; z<= zMaximo; z++){
+		BMP imagenSalida;
+//		std::string numeroTurno = z;
+		imagenSalida.SetSize(xMaximoArchivoSalida, yMaximoArchivoSalida);
+		unsigned int haciaY = 0; //hacia qué coordenadas del tablero sera impresa la casilla
+		for (unsigned int y = 1; y <= this->yMaximo; y++) {
+
+			unsigned int haciaX = 0;
+			for (unsigned int x = 1; x <= this->xMaximo; x++) {
+
+				Casilla* casilla = this->getCasilla(x,y,z);
+				EstadoDeCasilla estadoDeCasilla = casilla->getEstado();
+
+				switch (estadoDeCasilla) {
+
+					case INACTIVA:{
+						BMP imagenInactiva;
+						imagenInactiva.ReadFromFile("tipoCasilla/inactiva.bmp");
+						escribirEnArchivo(imagenInactiva, tamanioDeCasillasSalida,
+								imagenSalida, haciaX, haciaY);
+						break;
+					}
+
+					case VACIA:{
+						escribirVacia(casilla->getTipo(), tamanioDeCasillasSalida,
+								imagenSalida, haciaX, haciaY);
+						break;
+					}
+
+					case OCUPADA:{
+						escribirOcupada(casilla->getFicha(), tamanioDeCasillasSalida,
+								imagenSalida, haciaX, haciaY);
+						break;
+					}
+				}
+
+				haciaX += tamanioDeCasillasSalida;
+			}
+			haciaY += tamanioDeCasillasSalida;
+		}
+
+
+	std::cout<< "imprimiendo..."<<std::endl;
+
+
+
+	std::string nombreArchivo;
+	nombreArchivo += "jugador-" + std::to_string(jugadorActual->getnumero());
+	nombreArchivo += "_nivel-" + std::to_string(z) + ".bmp";
+
+	const char* numeroTurnoSalida = nombreArchivo.c_str();
+
+	imagenSalida.WriteToFile(numeroTurnoSalida);
+
+	}
 }

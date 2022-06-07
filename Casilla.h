@@ -1,3 +1,4 @@
+
 #ifndef CASILLA_H_
 #define CASILLA_H_
 
@@ -78,6 +79,13 @@ class Casilla {
 		 * pos: La casilla queda ocupada.
 		 */
 		void ocupar();
+
+		/*
+		 * pre: La ficha no puede estar vacia.
+		 * 		El jugador no puede ser NULL.
+		 * pos: Ocupa la casilla con una ficha del jugador.
+		 */
+		void ocupar(Ficha* ficha, Jugador* jugador);
 //-------------------------------------------------------------------------------
 		/**
 		 * pre:
@@ -100,7 +108,7 @@ class Casilla {
 
 		/**
 		 * pre:
-		 * pos:
+		 * pos: Devuelve el jugador dueño de la ficha ubicada en la casilla.
 		 */
 		Jugador* getJugador();
 
@@ -128,7 +136,7 @@ class Casilla {
 		unsigned int getZ();
 
 		/**
-		 * pre:-
+		 * pre: Tiene que existir una ficha en la casilla.
 		 * pos: Devuelve la ficha de la casilla o NULL si esta vacío.
 		 */
 		Ficha* getFicha();
