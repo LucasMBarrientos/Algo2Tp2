@@ -262,7 +262,7 @@ void Tablero::escribirOcupada(Ficha* ficha,
 		unsigned int haciaX, unsigned int haciaY) {
 
 	TipoDeFicha tipoDeFicha = ficha->getTipo();
-//	unsigned int numeroDeJugador = ficha->getJugador()->getnumero();
+//	unsigned int numeroDeJugador = ficha->getJugador()->obtenerId();
 
 	BMP imagenTipoDeFicha;
 //	BMP imagenNumero; //<<---------------------------------------------------------------------------------------------ALEJANDRO
@@ -347,7 +347,7 @@ void Tablero::exportarTableroAArchivo(unsigned int tamanioDeCasillasSalida, Juga
 
 
 	std::string nombreArchivo;
-	nombreArchivo += "jugador-" + std::to_string(jugadorActual->getnumero());
+	nombreArchivo += "jugador-" + std::to_string(jugadorActual->obtenerId());
 	nombreArchivo += "_nivel-" + std::to_string(z) + ".bmp";
 
 	const char* numeroTurnoSalida = nombreArchivo.c_str();
