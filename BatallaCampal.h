@@ -59,6 +59,7 @@ class BatallaCampal {
 
 		bool consultarUsuario(std::string pregunta, std::string opciontrue, std::string opcionFalse);
 		void elegirMovimiento(Casilla* casillaInicio);
+		void cambiarTurno();
 };
 
 #endif /* BATALLACAMPAL_H_ */

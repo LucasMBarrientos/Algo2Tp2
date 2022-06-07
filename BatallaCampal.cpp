@@ -64,13 +64,28 @@ void BatallaCampal::inicializar(){
 
 				try{
 					Ficha* ficha = new Ficha(SOLDADO,this->ListaDeJugadores->obtener(x));
-					this->tablero->getCasilla(x,y,1)->setFicha(ficha);
+					this->tablero->colocarFicha(x,y,1,ficha,this->jugadorActual);
 				} catch (string mensajeError){
 					cout << "Ocurrio un error en la ejecucion: " + mensajeError << endl;
 				}
 			}
 		}
 }
+
+void BatallaCampal::cambiarTurno(){
+	this->ListaDeJugadores->iniciarCursor();
+	while(this->ListaDeJugadores->avanzarCursor()){
+		if(this->ListaDeJugadores->obtenerCursor() == this->jugadorActual){
+			break;
+		}
+	}
+	if(this->ListaDeJugadores->avanzarCursor()){
+		this->jugadorActual = this->ListaDeJugadores->obtenerCursor();
+	}else{
+		this->jugadorActual = this->ListaDeJugadores->obtener(1);
+	}
+}
+
 
 void BatallaCampal::jugar(){
 	inicializar();
@@ -95,6 +110,7 @@ void BatallaCampal::jugar(){
 
 
 		juegoActivo = sigueJugando();
+		cambiarTurno();
   }
   if(this->ListaDeJugadores->estaVacia()){
 	  cout << "EMPATE" << endl;
@@ -105,7 +121,7 @@ void BatallaCampal::jugar(){
 
 bool BatallaCampal::sigueJugando(){
 	this->ListaDeJugadores->iniciarCursor();
-	if(this->ListaDeJugadores->contarElementos() > 2){
+	if(this->ListaDeJugadores->contarElementos() >= 2){
 		return true;
 	}else{
 		return false;
@@ -127,49 +143,46 @@ void BatallaCampal::eliminarJugador(Jugador* jugador){
 
 bool BatallaCampal::atacar(){
   for(int i=1; i<=jugadorActual->obtenerCantidadDeDisparos(); i++){
-
     bool ataqueValido = false;
     do{
+    	Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeAtaque();
+    	if(this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
+    		Casilla* casillaAtacada = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
+    		
+        if(casillaAtacada->getEstado() == OCUPADA){
+				if(!casillaAtacada->tieneJugador(this->jugadorActual)){
 
-      Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeAtaque();
-      if(this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
-
-    	  Casilla* casillaAtacada = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
-        if(!casillaAtacada->tieneJugador(this->jugadorActual)){
-
-        	if(casillaAtacada->getEstado() == OCUPADA){
-
-        		Jugador* jugadorAtacado = casillaAtacada->getJugador();
-            switch (casillaAtacada->getFicha()->getTipo()) {
-            	case SOLDADO: {
-            		jugadorAtacado->eliminarUnSoldado();
-            		jugadorAtacado->reducirCantidadDisparos(1);
-            		if(jugadorAtacado->obtenerCantidadDeSoldados() == 0){
-            			eliminarJugador(jugadorAtacado);
-            		}
-            		break;
-            	}
-            	case AVION: {
-            		jugadorAtacado->reducirCantidadDisparos(2);
-            		break;
-            	}
-            	case BARCO: {
-            		jugadorAtacado->reducirCantidadDisparosMisil(1);
-            		break;
-            	}
-            	/*case TANQUE: {
-            		jugadorAtacado->reducirCantidadDisparosTanque(1);
-            		break;
-            	}
-            	case MINA: {
-            		break;
-            	}*/
-            }
-            casillaAtacada->vaciar();
-            casillaAtacada->inactivar();
-            ataqueValido = true;
-          }else{ataqueValido = true;}
-        }else{ataqueValido = false;}
+					Jugador* jugadorAtacado = casillaAtacada->getJugador();
+					switch (casillaAtacada->getFicha()->getTipo()) {
+						case SOLDADO: {
+							jugadorAtacado->eliminarUnSoldado();
+							jugadorAtacado->reducirCantidadDisparos(1);
+							if(jugadorAtacado->obtenerCantidadDeSoldados() == 0){
+								eliminarJugador(jugadorAtacado);
+							}
+							break;
+						}
+						case AVION: {
+							jugadorAtacado->reducirCantidadDisparos(2);
+							break;
+						}
+						case BARCO: {
+							jugadorAtacado->reducirCantidadDisparosMisil(1);
+							break;
+						}
+						/*case TANQUE: {
+							jugadorAtacado->reducirCantidadDisparosTanque(1);
+							break;
+						}*/
+						case MINA: {
+							break;
+						}
+					}
+					casillaAtacada->vaciar();
+					casillaAtacada->inactivar();
+					ataqueValido = true;
+				}else{ataqueValido = true;}
+			}else{ataqueValido = true;}
       }
     }while(!ataqueValido);
   }
