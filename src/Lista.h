@@ -4,10 +4,10 @@
 #include "Nodo.h"
 
 /*
- * Una Lista es una colecci�n din�mica de elementos dispuestos en una secuencia.
+ * Una Lista es una colección dinámica de elementos dispuestos en una secuencia.
  *
  * Define operaciones para agregar, remover, acceder y cambiar elementos
- * en cualquier posici�n.
+ * en cualquier posición.
  *
  * Tiene un cursor que permite recorrer todos los elementos secuencialmente.
  *
@@ -25,7 +25,7 @@ template<class T> class Lista {
     public:
 
         /*
-         * post: Lista vac�a.
+         * post: Lista vacía.
          */
         Lista();
 
@@ -36,7 +36,7 @@ template<class T> class Lista {
         Lista(Lista<T>& otraLista);
 
         /*
-         * post: indica si la Lista tiene alg�n elemento.
+         * post: indica si la Lista tiene algún elemento.
          */
         bool estaVacia();
 
@@ -46,40 +46,40 @@ template<class T> class Lista {
         unsigned int contarElementos();
 
         /*
-         * post: agrega el elemento al final de la Lista, en la posici�n:
+         * post: agrega el elemento al final de la Lista, en la posición:
          *       contarElementos() + 1.
          */
         void agregar(T elemento);
 
         /*
-         * pre : posici�n pertenece al intervalo: [1, contarElementos() + 1]
-         * post: agrega el elemento en la posici�n indicada.
+         * pre : posición pertenece al intervalo: [1, contarElementos() + 1]
+         * post: agrega el elemento en la posición indicada.
          *
          */
         void agregar(T elemento, unsigned int posicion);
 
         /*
          * post: agrega todos los elementos de otraLista
-         *       a partir de la posici�n contarElementos() + 1.
+         *       a partir de la posición contarElementos() + 1.
          */
         void agregar(Lista<T> &otraLista);
 
         /*
-         * pre : posici�n pertenece al intervalo: [1, contarElementos()]
-         * post: devuelve el elemento en la posici�n indicada.
+         * pre : posición pertenece al intervalo: [1, contarElementos()]
+         * post: devuelve el elemento en la posición indicada.
          */
         T obtener(unsigned int posicion);
 
         /*
-         * pre : posicio� pertenece al intervalo: [1, contarElementos()]
-         * post: cambia el elemento en la posici�n indicada por el
+         * pre : posicioó pertenece al intervalo: [1, contarElementos()]
+         * post: cambia el elemento en la posición indicada por el
          *       elemento dado.
          */
         void asignar(T elemento, unsigned int posicion);
 
         /*
-         * pre : posici�n pertenece al intervalo: [1, contarElementos()]
-         * post: remueve de la Lista el elemento en la posici�n indicada.
+         * pre : posición pertenece al intervalo: [1, contarElementos()]
+         * post: remueve de la Lista el elemento en la posición indicada.
          */
         void remover(unsigned int posicion);
 
@@ -90,21 +90,21 @@ template<class T> class Lista {
         void iniciarCursor();
 
         /*
-         * pre : se ha iniciado un recorrido (invocando el m�todo
+         * pre : se ha iniciado un recorrido (invocando el método
          *       iniciarCursor()) y desde entonces no se han agregado o
          *       removido elementos de la Lista.
          * post: mueve el cursor y lo posiciona en el siguiente elemento
          *       del recorrido.
-         *       El valor de retorno indica si el cursor qued� posicionado
-         *       sobre un elemento o no (en caso de que la Lista est� vac�a o
-         *       no existan m�s elementos por recorrer.)
+         *       El valor de retorno indica si el cursor quedó posicionado
+         *       sobre un elemento o no (en caso de que la Lista esté vacía o
+         *       no existan más elementos por recorrer.)
          */
         bool avanzarCursor();
 
         /*
-         * pre : el cursor est� posicionado sobre un elemento de la Lista,
-         *       (fue invocado el m�todo avanzarCursor() y devolvi� true)
-         * post: devuelve el elemento en la posici�n del cursor.
+         * pre : el cursor está posicionado sobre un elemento de la Lista,
+         *       (fue invocado el método avanzarCursor() y devolvió true)
+         * post: devuelve el elemento en la posición del cursor.
          *
          */
         T obtenerCursor();
@@ -117,10 +117,38 @@ template<class T> class Lista {
     private:
 
         /*
-         * pre : posici�n pertenece al intervalo: [1, contarElementos()]
-         * post: devuelve el nodo en la posici�n indicada.
+         * pre : posición pertenece al intervalo: [1, contarElementos()]
+         * post: devuelve el nodo en la posición indicada.
          */
         Nodo<T>* obtenerNodo(unsigned int posicion); // NOTA: primitiva PRIVADA
+};
+
+/*
+ * Excepción que representa el intento de acceder a un elemento
+ * que no existe dentro de la Lista.
+ */
+class ExcepcionElementoInexistente {
+
+    private:
+        unsigned int posicion;
+
+    public:
+        /*
+         * post: Excepción creada a partir de la posición inválida a la
+         *       que se intentó acceder.
+         */
+        ExcepcionElementoInexistente(unsigned int posicion) {
+
+            this->posicion = posicion;
+        }
+
+        /*
+         * post: devuelve la posición inválida a la que se intentó acceder.
+         */
+        unsigned int obtenerPosicionInvalida() {
+
+            return this->posicion;
+        }
 };
 
 template<class T> Lista<T>::Lista() {
@@ -177,14 +205,19 @@ template<class T> void Lista<T>::agregar(T elemento, unsigned int posicion) {
 
         /* cualquier recorrido actual queda invalidado */
         this->iniciarCursor();
-    }
 
+    } else {
+
+        throw ExcepcionElementoInexistente(posicion);
+    }
 }
 
 template<class T> void Lista<T>::agregar(Lista<T> &otraLista) {
 
     otraLista.iniciarCursor();
+
     while (otraLista.avanzarCursor()) {
+
         this->agregar(otraLista.obtenerCursor());
     }
 }
@@ -196,6 +229,10 @@ template<class T> T Lista<T>::obtener(unsigned int posicion) {
     if ((posicion > 0) && (posicion <= this->tamanio)) {
 
         elemento = this->obtenerNodo(posicion)->obtenerDato();
+
+    } else {
+
+        throw ExcepcionElementoInexistente(posicion);
     }
 
     return elemento;
@@ -206,6 +243,10 @@ template<class T> void Lista<T>::asignar(T elemento, unsigned int posicion) {
     if ((posicion > 0) && (posicion <= this->tamanio)) {
 
         this->obtenerNodo(posicion)->cambiarDato(elemento);
+
+    } else {
+
+        throw ExcepcionElementoInexistente(posicion);
     }
 }
 
@@ -232,6 +273,10 @@ template<class T> void Lista<T>::remover(unsigned int posicion) {
 
         /* cualquier recorrido actual queda invalidado */
         this->iniciarCursor();
+
+    } else {
+
+        throw ExcepcionElementoInexistente(posicion);
     }
 }
 
@@ -262,6 +307,10 @@ template<class T> T Lista<T>::obtenerCursor() {
     if (this->cursor != NULL) {
 
         elemento = this->cursor->obtenerDato();
+
+    } else {
+
+        throw ExcepcionElementoInexistente(0);
     }
 
     return elemento;

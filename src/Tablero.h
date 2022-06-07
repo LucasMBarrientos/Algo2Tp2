@@ -1,11 +1,14 @@
+
 #ifndef TABLERO_H_
 #define TABLERO_H_
-
-#include <iostream>
 
 #include "Casilla.h"
 #include "Lista.h"
 
+#include "EasyBMP.h"
+
+#include <iostream>
+#include <string>
 
 class Tablero {
 
@@ -32,13 +35,19 @@ class Tablero {
 
 		/**
 		 * pre:-
-		 * pos: Devuelve verdadero si la coordenada está entre 1 y Maximos.
+		 * pos: guarda en un archivo *.bmp el tablero de juego.
+		 */
+		void exportarTableroAArchivo(unsigned int tamanioDeCasillasSalida, Jugador* jugadorActual);
+
+		/**
+		 * pre:-
+		 * pos: Devuelve verdadero si x y z son mayores o iguales a 1 y menores o iguales a
+		 * 		los maximos del tablero.
 		 */
 		bool existeLaCasilla(unsigned int x, unsigned int y, unsigned int z);
 
 		/**
-		 * pre: x y z son mayores o iguales a 1 y menores o iguales a
-		 * 		los maximos del tablero.
+		 * pre: existeLaCasilla() es verdadero.
 		 * pos: Devuelve la casilla en la posición indicada.
 		 */
 		Casilla* getCasilla(unsigned int x , unsigned int y, unsigned int z);
@@ -63,16 +72,14 @@ class Tablero {
 
 
 		/**
-		 * pre:
-		 * pos:
+		 * pre: (x,y,z) debe pertenecer al tablero,
+		 * 		ficha no puede ser vacío,
+		 * 		jugador no puede ser vacío.
+		 *
+		 * pos: Setea en (x,y,z) una ficha de jugador.
 		 */
-		void colocarSoldado(); // NO IMPLEMENTADO------------------------------------------¿¿No debería encargarse Ficha??
-
-		/**
-		 * pre:
-		 * pos:
-		 */
-		void colocarBarco(); //NO IMPLEMENTADO---------------------------------------------¿¿No debería encargarse Ficha??
+		void colocarFicha(unsigned int x, unsigned int y, unsigned int z,
+				Ficha* ficha, Jugador* jugador);
 
 		/**
 		 * pre:
@@ -82,7 +89,7 @@ class Tablero {
 
 
 		/**
-		 * pre:
+		 * pre:-
 		 * pos: Elimina todos los casilleros liberando los recursos utilizados.
 		 */
 		~Tablero();
@@ -105,10 +112,44 @@ class Tablero {
 				char &salidaEstadoDeCasilla, char &salidaTipoDeCasilla, char &salidaTipoDeFicha, unsigned int &numeroDeJugador);
 
 		/**
-		 * pre:
+		 * pre:-
 		 * pos: Muestra por consola los datos de una casilla del tablero.
 		 */
 		void imprimirCasilla(EstadoDeCasilla &estadoDeCasilla, TipoDeCasilla &tipoDeCasilla, Ficha* ficha);
+
+		/**
+		 * pre:-
+		 * pos: Escribe en el archivo la casilla con su estado y tipo correspodiente;
+		 * 		además de la ficha y numero de jugador si hubiere.
+		 */
+		void escribirEnArchivo(BMP &imagen,
+				unsigned int tamanioDeCasillasSalida, BMP &imagenSalida,
+				unsigned int haciaX, unsigned int haciaY);
+
+		/*
+		 * pre:
+		 * pos:
+		 */
+		void escribirInactiva(BMP &imagen,
+				unsigned int tamanioDeCasillasSalida, BMP &imagenSalida,
+				unsigned int haciaX, unsigned int haciaY);
+
+		/*
+		 * pre:
+		 * pos:
+		 */
+		void escribirVacia(TipoDeCasilla tipoDeCasilla, unsigned int tamanioDeCasillasSalida, BMP& imagenSalida,
+				unsigned int haciaX, unsigned int haciaY);
+
+		/*
+		 * pre:
+		 * pos:
+		 */
+	void escribirOcupada(Ficha* ficha,
+			unsigned int tamanioDeCasillasSalida, BMP& imagenSalida,
+			unsigned int haciaX, unsigned int haciaY);
+
+
 
 
 

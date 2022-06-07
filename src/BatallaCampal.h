@@ -4,6 +4,7 @@
 #include "Jugador.h"
 #include "Tablero.h"
 #include "Lista.h"
+#include "Ficha.h"
 #include "Coordenadas.h"
 #include <string>
 class BatallaCampal {
@@ -13,7 +14,7 @@ class BatallaCampal {
     Jugador* jugadorActual;
     Tablero* tablero;
     int cantidadDeJugadores;
-    /*Carta*/
+    //Carta* carta;
 	public:
 		/**
 		 * pre:
@@ -49,7 +50,7 @@ class BatallaCampal {
 
 		bool atacar();
 		bool mover();
-		void eliminarJugador();
+		void eliminarJugador(Jugador* jugador);
     /**
 		 * pre:
 		 * post: valida si listaJugadores tiene mas de un item => devuelve true
@@ -57,7 +58,8 @@ class BatallaCampal {
 		bool sigueJugando();
 
 		bool consultarUsuario(std::string pregunta, std::string opciontrue, std::string opcionFalse);
-
+		void elegirMovimiento(Casilla* casillaInicio);
+		void cambiarTurno();
 };
 
 #endif /* BATALLACAMPAL_H_ */

@@ -1,3 +1,4 @@
+
 #include "Ficha.h"
 
 Ficha::Ficha(TipoDeFicha tipo, Jugador* jugador) {
@@ -11,32 +12,24 @@ Ficha::Ficha(TipoDeFicha tipo, Jugador* jugador) {
 }
 
 /**
- * pre:
- * pos:
  */
 TipoDeFicha Ficha::getTipo(){
 	return this->tipo;
 }
 
 /**
- * pre:
- * pos:
  */
 void Ficha::setJugador(Jugador*& jugador){
+	if(!jugador){
+		throw std::string("El jugador no puede ser NULL");
+	}
 	this->jugador = jugador;
 }
 
 /**
- *pre:
- *pos:
  */
 Jugador* Ficha::getJugador() {
 	return this->jugador;
 }
 
-/**
- * pre:
- * pos:
- */
-Ficha::~Ficha() {
-}
+
