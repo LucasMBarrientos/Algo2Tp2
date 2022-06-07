@@ -13,6 +13,8 @@ unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
   	this->nombre = nombre;
   	this->cantidadDeSoldados = cantidadDeSoldados;
   	this->cantidadDeDisparos = cantidadDeDisparos;
+	this->cantidadDeDisparosMisil = 0;
+	this->cantidadDeDisparosTanque = 0;
 }
 
 void Jugador::eliminarVariosSoldados(unsigned int cantidad){
@@ -35,8 +37,24 @@ unsigned int Jugador::obtenerCantidadDeDisparosMisil(){
 	return this->cantidadDeDisparosMisil;
 }
 
+unsigned int Jugador::obtenerCantidadDeDisparosTanque(){
+	return this->cantidadDeDisparosTanque;
+}
+
 unsigned int Jugador::obtenerCantidadDeSoldados(){
   return this->cantidadDeSoldados;
+}
+
+Permiso Jugador::obtenerPermiso(){
+	return this->estado;
+}
+
+void Jugador::habilitarJugador(){
+	this->estado = HABILITADO;
+}
+
+void Jugador::bloquearJugador(){
+	this->estado = BLOQUEADO;
 }
 
 void Jugador::sumarUnSoldado(){
@@ -67,6 +85,17 @@ void Jugador::reducirCantidadDisparosMisil(unsigned int disparosReducidos){
       throw "No se puede Reducir ese numero a la Cantidad de Disparos";
     }
     this->cantidadDeDisparosMisil -= cantidadDeDisparos;
+}
+
+void Jugador::aumentarCantidadDisparosTanque(unsigned int disparosAumentados){
+	this->cantidadDeDisparosTanque += disparosAumentados;
+}
+
+void Jugador::reducirCantidadDisparosTanque(unsigned int disparosReducidos){
+    if(this->cantidadDeDisparosTanque < disparosReducidos){
+      throw "No se puede Reducir ese numero a la Cantidad de Disparos";
+    }
+    this->cantidadDeDisparosTanque -= cantidadDeDisparos;
 }
 
 void mostrarMensaje(string mensaje){
