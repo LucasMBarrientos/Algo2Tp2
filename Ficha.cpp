@@ -11,6 +11,31 @@ Ficha::Ficha(TipoDeFicha tipo, Jugador* jugador) {
 
 }
 
+<<<<<<< HEAD
 Ficha::~Ficha() {
 }
 
+=======
+/**
+ */
+TipoDeFicha Ficha::getTipo(){
+	return this->tipo;
+}
+
+/**
+ */
+void Ficha::setJugador(Jugador*& jugador){
+	if(!jugador){
+		throw std::string("El jugador no puede ser NULL");
+	}
+	this->jugador = jugador;
+}
+
+/**
+ */
+Jugador* Ficha::getJugador() {
+	return this->jugador;
+}
+
+
+>>>>>>> e415c573ecd72cb9a40cda720848ce8888660f1a
