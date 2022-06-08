@@ -141,12 +141,12 @@ void BatallaCampal::eliminarJugador(Jugador* jugador){
 }
 
 bool BatallaCampal::atacar(){
-  for(int i=1; i<=jugadorActual->obtenerCantidadDeDisparos(); i++){
+  for(int i=1; i<=jugadorActual->obtenerCantidadDisparos(); i++){
     bool ataqueValido = false;
     do{
     	Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeAtaque();
-    	if(this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
-    		Casilla* casillaAtacada = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
+    	if(this->tablero->existeLaCasilla(coordenadaSeleccionada.getX(),coordenadaSeleccionada.getY(),coordenadaSeleccionada.getZ())){
+    		Casilla* casillaAtacada = this->tablero->getCasilla(coordenadaSeleccionada.getX(),coordenadaSeleccionada.getY(),coordenadaSeleccionada.getZ());
     		if(casillaAtacada->getEstado() == OCUPADA){
 				if(!casillaAtacada->tieneJugador(this->jugadorActual)){
 					Jugador* jugadorAtacado = casillaAtacada->getJugador();
@@ -189,10 +189,10 @@ void BatallaCampal::elegirMovimiento(Casilla* casillaInicio) {
 	bool sigueSeleccionando = true;
 	do {
 		Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeMovimiento();
-		if (this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
-			Casilla* casillaFinal = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
+		if (this->tablero->existeLaCasilla(coordenadaSeleccionada.getX(),coordenadaSeleccionada.getY(),coordenadaSeleccionada.getZ())){
+			Casilla* casillaFinal = this->tablero->getCasilla(coordenadaSeleccionada.getX(),coordenadaSeleccionada.getY(),coordenadaSeleccionada.getZ());
 			if (casillaInicio->getTipo() == casillaFinal->getTipo()
-					/*&& validarMovimiento(casillaInicio,casillaFinal)*/
+					&& validarMovimiento(casillaInicio,casillaFinal)
 					&& casillaFinal->getEstado() != INACTIVA/*
 					&& !casillaFinal->tieneJugador(this->jugadorActual)*/
 					) {
@@ -203,7 +203,6 @@ void BatallaCampal::elegirMovimiento(Casilla* casillaInicio) {
 					switch (casillaFinal->getFicha()->getTipo()) {
 						case SOLDADO: {
 					    	jugadorAtacado->eliminarUnSoldado();
-					        jugadorAtacado->reducirCantidadDisparos(1);
 					        if(jugadorAtacado->obtenerCantidadDeSoldados() == 0){
 					        	eliminarJugador(jugadorAtacado);
 					        }
@@ -225,11 +224,15 @@ void BatallaCampal::elegirMovimiento(Casilla* casillaInicio) {
 					    	break;
 					    }*/
 					}
+					delete casillaFinal->getFicha();
+					delete casillaInicio->getFicha();
 					casillaFinal->inactivar();
 				}else{
-					casillaFinal = casillaInicio; /*PROBAR*/
+					*casillaFinal = *casillaInicio; /*PROBAR*/
 				}
 				casillaInicio->vaciar();
+				movimientoValido = true;
+				sigueSeleccionando = false;
 			} else {
 				cout<< "Movimiento invalido, intente otra vez" << endl;
 			}
@@ -238,6 +241,7 @@ void BatallaCampal::elegirMovimiento(Casilla* casillaInicio) {
 		}
 		if (!movimientoValido) {
 			cout << "El movimiento no es valido.";
+			this->tablero->imprimirTablero();//-------------------------------------------------------------
 			sigueSeleccionando = consultarUsuario(
 					"Desea seleccionar otro soldado?", "Seleccionar otra ficha",
 					"Mover a otra casilla");
@@ -249,8 +253,8 @@ bool BatallaCampal::mover(){
 	bool coordenadaInicialValida = false;
 	do{
 		Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeSeleccion();
-		if(this->tablero->existeLaCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ())){
-		  Casilla* casillaInicio = this->tablero->getCasilla(coordenadaSeleccionada.obtenerCoordenadaX(),coordenadaSeleccionada.obtenerCoordenadaY(),coordenadaSeleccionada.obtenerCoordenadaZ());
+		if(this->tablero->existeLaCasilla(coordenadaSeleccionada.getX(),coordenadaSeleccionada.getY(),coordenadaSeleccionada.getZ())){
+		  Casilla* casillaInicio = this->tablero->getCasilla(coordenadaSeleccionada.getX(),coordenadaSeleccionada.getY(),coordenadaSeleccionada.getZ());
 		  if(casillaInicio->tieneJugador(this->jugadorActual)){
 				elegirMovimiento(casillaInicio);
 		  }else{coordenadaInicialValida = false;}
