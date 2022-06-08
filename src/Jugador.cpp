@@ -13,12 +13,16 @@ unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
   	this->nombre = nombre;
   	this->cantidadDeSoldados = cantidadDeSoldados;
   	this->cantidadDeDisparos = cantidadDeDisparos;
+	this->estado = HABILITADO;
 	this->cantidadDeDisparosMisil = 0;
 	this->cantidadDeDisparosTanque = 0;
 }
 
-void Jugador::eliminarVariosSoldados(unsigned int cantidad){
-	this->cantidadDeSoldados -= cantidad;
+void Jugador::eliminarVariosSoldados(unsigned int cantidadSoldados){
+	if(this->obtenerCantidadDeSoldados() < cantidadSoldados){
+      throw "No se puede Reducir ese numero a la Cantidad de Soldados";
+    }
+	this->cantidadDeSoldados -= cantidadSoldados;
 }
 
 unsigned int Jugador::obtenerId(){
@@ -50,10 +54,16 @@ Permiso Jugador::obtenerPermiso(){
 }
 
 void Jugador::habilitarJugador(){
+	if(this->obtenerPermiso() == HABILITADO){
+		throw "Error: Ya se encuentra habilitado";
+	}
 	this->estado = HABILITADO;
 }
 
 void Jugador::bloquearJugador(){
+	if(this->obtenerPermiso() == BLOQUEADO){
+		throw "Error: Ya se encuentra bloqueado";
+	}
 	this->estado = BLOQUEADO;
 }
 
@@ -62,6 +72,9 @@ void Jugador::sumarUnSoldado(){
 }
 
 void Jugador::eliminarUnSoldado(){
+    if(this->obtenerCantidadDeSoldados() < 0){
+      throw "No se puede Reducir ese numero a la Cantidad de Soldados";
+    }
     this->cantidadDeSoldados--;
 }
 
@@ -70,7 +83,7 @@ void Jugador::aumentarCantidadDisparos(unsigned int disparosAumentados){
 }
 
 void Jugador::reducirCantidadDisparos(unsigned int disparosReducidos){
-    if(this->cantidadDeDisparos < disparosReducidos){
+    if(this->obtenerCantidadDisparos() < disparosReducidos){
       throw "No se puede Reducir ese numero a la Cantidad de Disparos";
     }
     this->cantidadDeDisparos -= cantidadDeDisparos;
@@ -81,7 +94,7 @@ void Jugador::aumentarCantidadDisparosMisil(unsigned int disparosAumentados){
 }
 
 void Jugador::reducirCantidadDisparosMisil(unsigned int disparosReducidos){
-    if(this->cantidadDeDisparosMisil < disparosReducidos){
+    if(this->obtenerCantidadDeDisparosMisil() < disparosReducidos){
       throw "No se puede Reducir ese numero a la Cantidad de Disparos";
     }
     this->cantidadDeDisparosMisil -= cantidadDeDisparos;
@@ -92,24 +105,24 @@ void Jugador::aumentarCantidadDisparosTanque(unsigned int disparosAumentados){
 }
 
 void Jugador::reducirCantidadDisparosTanque(unsigned int disparosReducidos){
-    if(this->cantidadDeDisparosTanque < disparosReducidos){
+    if(this->obtenerCantidadDeDisparosTanque() < disparosReducidos){
       throw "No se puede Reducir ese numero a la Cantidad de Disparos";
     }
     this->cantidadDeDisparosTanque -= cantidadDeDisparos;
 }
 
-void mostrarMensaje(string mensaje){
+void Jugador::mostrarMensaje(string mensaje){
 	cout<<mensaje<<endl;
 }
 
-bool esCadenaNumerica(string cadena){
+bool Jugador::esCadenaNumerica(string cadena){
 	for(unsigned int i = 0; i<cadena.length();i++){
 		if(!isdigit(cadena[i])) return false;
 	}
 	return true;
 }
 
-int pedirNumeroEntero(string mensaje){
+int Jugador::pedirNumeroEntero(string mensaje){
 	string cadena;
 	mostrarMensaje(mensaje);
 	cin>>cadena;
@@ -120,28 +133,24 @@ int pedirNumeroEntero(string mensaje){
 	return atoi(cadena.c_str());
 }
 
-Coordenada Jugador::pedirCoordenadaDeAtaque(){
+void Jugador::pedirCoordenadaDeAtaque(Coordenada &coordenada){
 	cout<< "Ingrese las coordenadas del Ataque: " << endl;
-	return obtenerCoordenada();
+	obtenerCoordenada(coordenada);
 }
 
-Coordenada Jugador::pedirCoordenadaDeSeleccion() {
+void Jugador::pedirCoordenadaDeSeleccion(Coordenada &coordenada) {
 	cout << "Ingrese las coordenadas del Soldado a seleccionar: " << endl;
-	return obtenerCoordenada();
+	obtenerCoordenada(coordenada);
 }
 
-Coordenada Jugador::pedirCoordenadaDeMovimiento() {
+void Jugador::pedirCoordenadaDeMovimiento(Coordenada &coordenada) {
 	cout << "Ingrese las coordenadas donde desea Mover al soldado: " << endl;
-	return obtenerCoordenada();
+	obtenerCoordenada(coordenada);
 }
 
-Coordenada Jugador::obtenerCoordenada(){
-	unsigned int x = pedirNumeroEntero("Ingrese una coordenada en X: ");
-	unsigned int y = pedirNumeroEntero("Ingrese una coordenada en Y: ");
-	unsigned int z = pedirNumeroEntero("Ingrese una coordenada en Z: ");
-	return Coordenada(x,y,z);
+void Jugador::obtenerCoordenada(Coordenada &coordenada){
+	coordenada.setX(pedirNumeroEntero("Ingrese una coordenada en X: "));
+	coordenada.setY(pedirNumeroEntero("Ingrese una coordenada en Y: "));
+	coordenada.setZ(pedirNumeroEntero("Ingrese una coordenada en Z: "));
 }
 
-Jugador::~Jugador() {
-
-}
