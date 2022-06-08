@@ -8,7 +8,9 @@ BatallaCampal::BatallaCampal(){
   this->cantidadDeJugadores=0;
   this->tablero=NULL;
   this->ListaDeJugadores=NULL;
+
   this->carta = new Carta;
+
 }
 
 int BatallaCampal::menuPrincipal(){
@@ -104,8 +106,10 @@ void BatallaCampal::jugar(){
 			}
 		}
 
+
 		this->carta->generarCartaAleatoria();
 		this->carta->ejecutarCarta(this->jugadorActual, this->tablero, this->ListaDeJugadores);
+
 
 
 		juegoActivo = sigueJugando();
@@ -141,7 +145,9 @@ void BatallaCampal::eliminarJugador(Jugador* jugador){
 }
 
 bool BatallaCampal::atacar(){
+
   for(int i=1; i<=jugadorActual->obtenerCantidadDisparos(); i++){
+
     bool ataqueValido = false;
     do{
     	Coordenada coordenadaSeleccionada = this->jugadorActual->pedirCoordenadaDeAtaque();

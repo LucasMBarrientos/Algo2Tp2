@@ -72,7 +72,7 @@ void Carta::ejecutarCarta(Jugador* jugador,Tablero* tablero,Lista<Jugador *>* Li
 	switch(this->tipo){
 				case CARTA_AVION:{
 
-									tablero->colocarElementoAleatorio(SOLDADO,jugador);//Posiciona un avion en el tablero
+									tablero->colocarElementoAleatorio(AVION,jugador);//Posiciona un avion en el tablero
 									jugador->aumentarCantidadDisparos(2);//Agrega 2 tiros al jugador que saco la carta
 
 									; break;
@@ -122,4 +122,3 @@ void Carta::ejecutarCarta(Jugador* jugador,Tablero* tablero,Lista<Jugador *>* Li
 Carta::~Carta() {
 	// TODO Auto-generated destructor stub
 }
-

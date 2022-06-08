@@ -8,7 +8,9 @@
 #include "Coordenadas.h"
 #include <string>
 #include <cmath>
+
 #include "Carta.h"
+
 class BatallaCampal {
 
 	private:
@@ -16,7 +18,9 @@ class BatallaCampal {
     Jugador* jugadorActual;
     Tablero* tablero;
     int cantidadDeJugadores;
+
     Carta* carta;
+
 	public:
 		/**
 		 * pre:

@@ -46,7 +46,12 @@ void Tablero::transformarDatoDeCasilla(EstadoDeCasilla& estadoDeCasilla, TipoDeC
 	switch (estadoDeCasilla) {
 		case INACTIVA: salidaEstadoDeCasilla = 'I'; break;
 		case VACIA: salidaEstadoDeCasilla = 'E'; break;
-		case OCUPADA: numeroDeJugador = ficha->getJugador()->obtenerId(); break;
+
+		case OCUPADA: {
+			salidaEstadoDeCasilla = 'O';
+			numeroDeJugador = ficha->getJugador()->obtenerId();
+			break;}
+
 	}
 
 	switch (tipoDeCasilla){
@@ -164,6 +169,7 @@ void Tablero::colocarFicha(unsigned int x, unsigned int y, unsigned int z,
 
 
 
+
 /**
  */
 void Tablero::colocarElementoAleatorio(enum TipoDeFicha tipoFicha,Jugador* jugador){
@@ -182,6 +188,7 @@ void Tablero::colocarElementoAleatorio(enum TipoDeFicha tipoFicha,Jugador* jugad
 
 	this->colocarFicha(x,y,z,ficha, jugador);
 }
+
 /**
  */
 void Tablero::getInfoDeCasilla(){ // NO IMPLEMENTADO. Se encarga Casilla.
@@ -198,7 +205,9 @@ void Tablero::validarRangoDeCoordenadas(unsigned int x, unsigned int y, unsigned
 	if((y < 1) || (y > this->yMaximo)){
 		throw std::string("La dimension y debe ser mayor o igual a 1 y menor o igual que yMaximo");
 	}
-	if((z < 1) || (x > this->xMaximo)){
+
+	if((z < 1) || (z > this->zMaximo)){
+
 		throw std::string("La dimension z debe ser mayor o igual a 1 y menor o igual que zMaximo");
 	}
 }
@@ -215,6 +224,7 @@ bool Tablero::existeLaCasilla(unsigned int x, unsigned int y, unsigned int z){
 }
 
 /**
+
  * Devuelve un unsign  int entre 1 y MAX
  *
  */
@@ -275,6 +285,8 @@ bool Tablero::validarCasillaYElemento(enum TipoDeFicha ficha,Casilla* casilla){
 
 
 /**
+
+
  */
 Tablero::~Tablero() {
 
