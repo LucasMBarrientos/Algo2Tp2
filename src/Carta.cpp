@@ -6,38 +6,36 @@
  */
 
 #include "Carta.h"
+using namespace std;
 
 Carta::Carta() {
-	enum TipoDeCarta tipoAleatorio;
-
 
 	switch(generaNumeroAleatorio()){
-					case 1: tipoAleatorio=CARTAAVION; break;
-					case 2: tipoAleatorio=CARTABARCO; break;
-					case 3: tipoAleatorio=CARTAMISIL; break;
-					case 4: tipoAleatorio=CARTATANQUE; break;
-					case 5: tipoAleatorio=CARTADESERTOR; break;
-					case 6: tipoAleatorio=CARTAD; break;
+					case 1: this->setTipoDeCarta(CARTA_AVION); break;
+					case 2: this->setTipoDeCarta(CARTA_BARCO); break;
+					case 3: this->setTipoDeCarta(CARTA_MISIL); break;
+					case 4: this->setTipoDeCarta(CARTA_TANQUE); break;
+					case 5: this->setTipoDeCarta(CARTA_MINA); break;
+					case 6: this->setTipoDeCarta(CARTA_SUSPENSION); break;
 	}
-	this->setTipoDeCarta(tipoAleatorio);
+
 
 }
 
 
 
-enum TipoDeCarta Carta::daUnaCartaAleatoria() {
-	enum TipoDeCarta tipoAleatorio;
-
+enum TipoDeCarta Carta::generarCartaAleatoria() {
 
 	switch(generaNumeroAleatorio()){
-					case 1: tipoAleatorio=CARTAAVION; break;
-					case 2: tipoAleatorio=CARTABARCO; break;
-					case 3: tipoAleatorio=CARTAMISIL; break;
-					case 4: tipoAleatorio=CARTATANQUE; break;
-					case 5: tipoAleatorio=CARTADESERTOR; break;
-					case 6: tipoAleatorio=CARTAD; break;
+
+					case 1: this->setTipoDeCarta(CARTA_AVION); break;
+					case 2: this->setTipoDeCarta(CARTA_BARCO); break;
+					case 3: this->setTipoDeCarta(CARTA_MISIL); break;
+					case 4: this->setTipoDeCarta(CARTA_TANQUE); break;
+					case 5: this->setTipoDeCarta(CARTA_MINA); break;
+					case 6: this->setTipoDeCarta(CARTA_SUSPENSION); break;
 	}
-	this->setTipoDeCarta(tipoAleatorio);
+	return (this->getTipoDeCarta());
 
 }
 
@@ -55,9 +53,9 @@ enum TipoDeCarta Carta::getTipoDeCarta(){
 
 int Carta::generaNumeroAleatorio(){
 	int MAX=7;
-    srand(time(NULL));
+    srand((unsigned)time(NULL));
     int n;
-         n = 1 + rand() % MAX;
+         n = 0 + rand() % MAX;
     return (n);
 }
 
@@ -70,38 +68,51 @@ bool Carta::checkrep(int n, int num[])
     }
 
 
-void Carta::ejecutarCarta(Jugador* jugador,Tablero* tablero){
+void Carta::ejecutarCarta(Jugador* jugador,Tablero* tablero,Lista<Jugador *>* ListaDeJugadores){
 	switch(this->tipo){
-				case CARTAAVION:{
+				case CARTA_AVION:{
 
-									//tablero->colocarAvion();//Posiciona un avion en el tablero
+									tablero->colocarElementoAleatorio(AVION,jugador);//Posiciona un avion en el tablero
 									jugador->aumentarCantidadDisparos(2);//Agrega 2 tiros al jugador que saco la carta
 
 									; break;
 				}
-				case CARTABARCO:
-							{	tablero->colocarBarco();//Posiciona un avion en el tablero
-								jugador->aumentarCantidadDisparosMisil();
+				case CARTA_BARCO:
+							{	tablero->colocarElementoAleatorio(SOLDADO,jugador);//Posiciona un barco en el tablero
+								jugador->aumentarCantidadDisparosMisil(1);
 								 break;
 				}
-				case CARTAMISIL:{
+				case CARTA_MISIL:{
 									//ejecutaUnTiroMisil();
 
 								 break;
 				}
-				case CARTATANQUE:{
-
-									//Definir que hace un tanque
+				case CARTA_TANQUE:{
+									tablero->colocarElementoAleatorio(TANQUE,jugador);
+									//EjecutaUnTirotaque en el plano xy de 2x2;
 								 break;
 		        }
-				case CARTADESERTOR:{
-								 //El jugador pierde 1 soldado (ojo hay que ubicar al soldado y vaciar el casillero)
+				case CARTA_MINA:{
+								 //Colocar mina en posicion que deja el soldado al moverse.
 								 break;
 				}
-				case CARTAD:{
+				case CARTA_SUSPENSION:{
 
-								//Definir que hace esta carta
-								break;
+					bool flagIdValido=false;
+					unsigned int id;
+					do{
+						cout<<"Ingrese el Id del jugador a saltear";
+						cin>>id;
+						ListaDeJugadores->iniciarCursor();
+						while(ListaDeJugadores->avanzarCursor()){
+								if((ListaDeJugadores->obtenerCursor()->obtenerId())==id){
+									ListaDeJugadores->obtenerCursor()->bloquearJugador() ;
+								flagIdValido=true;
+								}
+						}
+					}while(!flagIdValido);
+
+					break;
 				}
 	}
 }
@@ -111,4 +122,3 @@ void Carta::ejecutarCarta(Jugador* jugador,Tablero* tablero){
 Carta::~Carta() {
 	// TODO Auto-generated destructor stub
 }
-

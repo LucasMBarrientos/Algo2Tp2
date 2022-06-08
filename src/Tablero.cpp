@@ -46,10 +46,12 @@ void Tablero::transformarDatoDeCasilla(EstadoDeCasilla& estadoDeCasilla, TipoDeC
 	switch (estadoDeCasilla) {
 		case INACTIVA: salidaEstadoDeCasilla = 'I'; break;
 		case VACIA: salidaEstadoDeCasilla = 'E'; break;
+
 		case OCUPADA: {
 			salidaEstadoDeCasilla = 'O';
 			numeroDeJugador = ficha->getJugador()->obtenerId();
 			break;}
+
 	}
 
 	switch (tipoDeCasilla){
@@ -165,6 +167,28 @@ void Tablero::colocarFicha(unsigned int x, unsigned int y, unsigned int z,
 }
 
 
+
+
+
+/**
+ */
+void Tablero::colocarElementoAleatorio(enum TipoDeFicha tipoFicha,Jugador* jugador){
+
+	Ficha* ficha;
+
+	ficha = new Ficha(tipoFicha,jugador);
+	unsigned int x,y,z;
+	do{
+		x=this->devuelveNumAleatorio(this->getXMaximo());
+		y=this->devuelveNumAleatorio(this->getYMaximo());
+		z=this->devuelveNumAleatorio(this->getZMaximo());
+
+	}
+	while(!validarCasillaYElemento(tipoFicha,this->getCasilla(x,y,z)));
+
+	this->colocarFicha(x,y,z,ficha, jugador);
+}
+
 /**
  */
 void Tablero::getInfoDeCasilla(){ // NO IMPLEMENTADO. Se encarga Casilla.
@@ -181,7 +205,9 @@ void Tablero::validarRangoDeCoordenadas(unsigned int x, unsigned int y, unsigned
 	if((y < 1) || (y > this->yMaximo)){
 		throw std::string("La dimension y debe ser mayor o igual a 1 y menor o igual que yMaximo");
 	}
+
 	if((z < 1) || (z > this->zMaximo)){
+
 		throw std::string("La dimension z debe ser mayor o igual a 1 y menor o igual que zMaximo");
 	}
 }
@@ -198,6 +224,69 @@ bool Tablero::existeLaCasilla(unsigned int x, unsigned int y, unsigned int z){
 }
 
 /**
+
+ * Devuelve un unsign  int entre 1 y MAX
+ *
+ */
+unsigned int Tablero::devuelveNumAleatorio(unsigned int MAX){
+		srand(time(NULL));
+		unsigned int n;
+		n = 1 + rand() % (MAX);
+		return (n);
+
+}
+/**
+ * Valida que lo que se quiere poner corresponda al tipo de Casilla
+ *
+ */
+bool Tablero::validarCasillaYElemento(enum TipoDeFicha ficha,Casilla* casilla){
+	bool validacionOK=false;
+	if(casilla->estaVacia() && !(casilla->estaInactiva())){
+		switch(ficha){
+
+
+				case SOLDADO:{
+
+					if((casilla->getTipo())==TIERRA){validacionOK=true;
+					}
+					break;
+
+					}
+				case AVION:{
+					if((casilla->getTipo())==AIRE){validacionOK=true;}
+
+					break;
+
+				}
+				case BARCO:{
+					if((casilla->getTipo())==AGUA){validacionOK=true;}
+
+					break;
+					}
+				case TANQUE:{
+					if((casilla->getTipo())==TIERRA){validacionOK=true;}
+
+					break;
+					}
+
+				//No deberia aplicar para MINA
+				case MINA:{
+					if((casilla->getTipo())==TIERRA){validacionOK=true;}
+
+					break;
+					}
+
+
+		}
+
+	}
+	return (validacionOK);
+}
+
+
+/**
+
+
  */
 Tablero::~Tablero() {
 

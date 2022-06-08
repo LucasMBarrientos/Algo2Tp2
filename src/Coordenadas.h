@@ -15,6 +15,7 @@ class Coordenada{
 
         Coordenada(unsigned int x,unsigned int y,unsigned int z);
 
+
         void setX(unsigned int x);
 
         void setY(unsigned int y);
@@ -26,6 +27,7 @@ class Coordenada{
         unsigned int getY();
 
         unsigned int getZ();
+
 
 
 };

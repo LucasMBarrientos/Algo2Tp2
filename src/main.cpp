@@ -8,6 +8,7 @@ try {
 	BatallaCampal* juego = new BatallaCampal();
 	juego->jugar();
 
+
 				} catch (std::string mensajeError) {
 					std::cout << "Ocurrio un error en la ejecucion: "
 							  + mensajeError

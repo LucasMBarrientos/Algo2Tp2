@@ -82,6 +82,13 @@ class Tablero {
 				Ficha* ficha, Jugador* jugador);
 
 		/**
+		* pre:
+		* pos:
+		*/
+		void colocarElementoAleatorio(enum TipoDeFicha ficha,Jugador* jugador);
+
+
+		/**
 		 * pre:
 		 * pos:
 		 */
@@ -112,6 +119,22 @@ class Tablero {
 				char &salidaEstadoDeCasilla, char &salidaTipoDeCasilla, char &salidaTipoDeFicha, unsigned int &numeroDeJugador);
 
 		/**
+
+		* pre:-
+		* pos:
+		*/
+
+
+		bool validarCasillaYElemento(enum TipoDeFicha ficha,Casilla* casilla);
+		/**
+		* pre:-
+		* pos:
+		*/
+
+		unsigned int devuelveNumAleatorio(unsigned int MAX);
+
+		/**
+
 		 * pre:-
 		 * pos: Muestra por consola los datos de una casilla del tablero.
 		 */
