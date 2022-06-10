@@ -28,12 +28,24 @@ enum TipoDeCarta Carta::generarCartaAleatoria() {
 
 	switch(generaNumeroAleatorio()){
 
-					case 1: this->setTipoDeCarta(CARTA_AVION); break;
-					case 2: this->setTipoDeCarta(CARTA_BARCO); break;
-					case 3: this->setTipoDeCarta(CARTA_MISIL); break;
-					case 4: this->setTipoDeCarta(CARTA_TANQUE); break;
-					case 5: this->setTipoDeCarta(CARTA_MINA); break;
-					case 6: this->setTipoDeCarta(CARTA_SUSPENSION); break;
+					case 1: this->setTipoDeCarta(CARTA_AVION);
+						cout<<"USTED SACO LA CARTA AVION"<<endl;
+						break;
+					case 2: this->setTipoDeCarta(CARTA_BARCO);
+						cout<<"USTED SACO LA CARTA BARCO"<<endl;
+						break;
+					case 3: this->setTipoDeCarta(CARTA_MISIL);
+						cout<<"USTED SACO LA CARTA MISIL"<<endl;
+						break;
+					case 4: this->setTipoDeCarta(CARTA_TANQUE);
+						cout<<"USTED SACO LA CARTA TANQUE"<<endl;
+						break;
+					case 5: this->setTipoDeCarta(CARTA_MINA);
+						cout<<"USTED SACO LA CARTA MINA"<<endl;
+						break;
+					case 6: this->setTipoDeCarta(CARTA_SUSPENSION);
+						cout<<"USTED SACO LA CARTA SUSPENSION"<<endl;
+						break;
 	}
 	return (this->getTipoDeCarta());
 
@@ -67,55 +79,6 @@ bool Carta::checkrep(int n, int num[])
         return false;
     }
 
-
-void Carta::ejecutarCarta(Jugador* jugador,Tablero* tablero,Lista<Jugador *>* ListaDeJugadores){
-	switch(this->tipo){
-				case CARTA_AVION:{
-
-									tablero->colocarElementoAleatorio(AVION,jugador);//Posiciona un avion en el tablero
-									jugador->aumentarCantidadDisparos(2);//Agrega 2 tiros al jugador que saco la carta
-
-									; break;
-				}
-				case CARTA_BARCO:
-							{	tablero->colocarElementoAleatorio(SOLDADO,jugador);//Posiciona un barco en el tablero
-								jugador->aumentarCantidadDisparosMisil(1);
-								 break;
-				}
-				case CARTA_MISIL:{
-									//ejecutaUnTiroMisil();
-
-								 break;
-				}
-				case CARTA_TANQUE:{
-									tablero->colocarElementoAleatorio(TANQUE,jugador);
-									//EjecutaUnTirotaque en el plano xy de 2x2;
-								 break;
-		        }
-				case CARTA_MINA:{
-								 //Colocar mina en posicion que deja el soldado al moverse.
-								 break;
-				}
-				case CARTA_SUSPENSION:{
-
-					bool flagIdValido=false;
-					unsigned int id;
-					do{
-						cout<<"Ingrese el Id del jugador a saltear";
-						cin>>id;
-						ListaDeJugadores->iniciarCursor();
-						while(ListaDeJugadores->avanzarCursor()){
-								if((ListaDeJugadores->obtenerCursor()->obtenerId())==id){
-									ListaDeJugadores->obtenerCursor()->bloquearJugador() ;
-								flagIdValido=true;
-								}
-						}
-					}while(!flagIdValido);
-
-					break;
-				}
-	}
-}
 
 
 

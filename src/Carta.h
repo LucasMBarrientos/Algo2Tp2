@@ -54,10 +54,6 @@ public:
 	//pre:
 	//pos:Carga en el atributo tipo de carta, una de las opciones posibles.
 	enum TipoDeCarta generarCartaAleatoria();
-	//pre:
-	//pos: Ejecuta la carta que este indicada en el atributo (tipo de carta)
-	void ejecutarCarta(Jugador* jugador,Tablero* tablero,Lista<Jugador *>* ListaDeJugadores);
-
 	virtual ~Carta();
 };
 

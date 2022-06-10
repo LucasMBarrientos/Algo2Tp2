@@ -15,6 +15,7 @@ unsigned int cantidadDeSoldados,unsigned int cantidadDeDisparos){
   	this->cantidadDeDisparos = cantidadDeDisparos;
 	this->cantidadDeDisparosMisil = 0;
 	this->cantidadDeDisparosTanque = 0;
+	this->estado = HABILITADO;
 }
 
 void Jugador::eliminarVariosSoldados(unsigned int cantidad){

@@ -181,12 +181,16 @@ void Tablero::colocarElementoAleatorio(enum TipoDeFicha tipoFicha,Jugador* jugad
 	do{
 		x=this->devuelveNumAleatorio(this->getXMaximo());
 		y=this->devuelveNumAleatorio(this->getYMaximo());
-		z=this->devuelveNumAleatorio(this->getZMaximo());
+		if(tipoFicha==AVION){
+			z=this->devuelveNumAleatorio(this->getZMaximo());
+		}
+		else{ z=1;}
 
 	}
 	while(!validarCasillaYElemento(tipoFicha,this->getCasilla(x,y,z)));
-
+	//Deberia eliminar la ficha existente??
 	this->colocarFicha(x,y,z,ficha, jugador);
+
 }
 
 /**
