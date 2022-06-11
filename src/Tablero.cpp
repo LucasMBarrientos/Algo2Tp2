@@ -155,21 +155,31 @@ unsigned int Tablero::getZMaximo(){
 
 /**
  */
-bool Tablero::quedaTipoCasillaDisponible(TipoDeCasilla tipo){
+bool Tablero::quedaTipoCasillaDisponible(TipoDeFicha tipo){
 	bool estaDisponible = false;
 	
 	switch (tipo){
-		case TIERRA: 
+		case SOLDADO: 
 			if(this->cantidadTierra > 0){
 				estaDisponible = true;
 			} 
 		break;
-		case AGUA: 
+		case TANQUE: 
+			if(this->cantidadTierra > 0){
+				estaDisponible = true;
+			} 
+		break;
+		case MINA: 
+			if(this->cantidadTierra > 0){
+				estaDisponible = true;
+			} 
+		break;
+		case BARCO: 
 			if(this->cantidadAgua > 0){
 				estaDisponible = true;
 			} 
 		break;
-		case AIRE: 
+		case AVION: 
 			if(this->cantidadAire > 0){
 				estaDisponible = true;
 			} 
@@ -221,24 +231,24 @@ void Tablero::colocarFicha(unsigned int x, unsigned int y, unsigned int z,
 /**
  */
 void Tablero::colocarElementoAleatorio(enum TipoDeFicha tipoFicha,Jugador* jugador){
+	if(quedaTipoCasillaDisponible(tipoFicha)){
+		Ficha* ficha;
 
-	Ficha* ficha;
+		ficha = new Ficha(tipoFicha,jugador);
+		unsigned int x,y,z;
+		do{
+			x=this->devuelveNumAleatorio(this->getXMaximo());
+			y=this->devuelveNumAleatorio(this->getYMaximo());
+			if(tipoFicha==AVION){
+				z=this->devuelveNumAleatorio(this->getZMaximo());
+			}
+			else{ z=1;}
 
-	ficha = new Ficha(tipoFicha,jugador);
-	unsigned int x,y,z;
-	do{
-		x=this->devuelveNumAleatorio(this->getXMaximo());
-		y=this->devuelveNumAleatorio(this->getYMaximo());
-		if(tipoFicha==AVION){
-			z=this->devuelveNumAleatorio(this->getZMaximo());
 		}
-		else{ z=1;}
-
+		while(!validarCasillaYElemento(tipoFicha,this->getCasilla(x,y,z)));
+		//Deberia eliminar la ficha existente??
+		this->colocarFicha(x,y,z,ficha, jugador);
 	}
-	while(!validarCasillaYElemento(tipoFicha,this->getCasilla(x,y,z)));
-	//Deberia eliminar la ficha existente??
-	this->colocarFicha(x,y,z,ficha, jugador);
-
 }
 
 /**
