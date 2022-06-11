@@ -74,10 +74,10 @@ class Tablero {
 		unsigned int getZMaximo();
 	
 		/**
-		 * pre: Recibe un TipoDeCasilla Valido.
+		 * pre: Recibe un TipoDeFicha Valido.
 		 * pos: Devuelve Verdadero si queda disponible en el tablero al menos un tipo de casilla que fue enviada por parametro.
 		 */
-		bool quedaTipoCasillaDisponible(TipoDeCasilla tipo);
+		bool quedaTipoCasillaDisponible(TipoDeFicha tipo);
 	
 		/**
 		 * pre: Recibe un TipoDeCasilla Valido.
