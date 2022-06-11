@@ -78,6 +78,18 @@ class Tablero {
 		 * pos: Devuelve Verdadero si queda disponible en el tablero al menos un tipo de casilla que fue enviada por parametro.
 		 */
 		bool quedaTipoCasillaDisponible(TipoDeCasilla tipo);
+	
+		/**
+		 * pre: Recibe un TipoDeCasilla Valido.
+		 * pos: Aumenta en 1 la cantidad del tipo pasado por parametro.
+		 */
+		void aumentarCantidadTipoCasilla(TipoDeCasilla tipo);
+	
+		/**
+		 * pre: Recibe un TipoDeCasilla Valido.
+		 * pos: Reduce en 1 la cantidad del tipo pasado por parametro.
+		 */
+		void reducirCantidadTipoCasilla(TipoDeCasilla tipo);
 
 		/**
 		 * pre: (x,y,z) debe pertenecer al tablero,
