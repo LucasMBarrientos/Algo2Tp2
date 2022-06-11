@@ -75,7 +75,7 @@ class Tablero {
 	
 		/**
 		 * pre: Recibe un TipoDeFicha Valido.
-		 * pos: Devuelve Verdadero si queda disponible en el tablero al menos un tipo de casilla que fue enviada por parametro.
+		 * pos: Devuelve Verdadero si queda disponible en el tablero al menos un tipo de casilla correspondiente al tipo de ficha enviada por parametro.
 		 */
 		bool quedaTipoCasillaDisponible(TipoDeFicha tipo);
 	
