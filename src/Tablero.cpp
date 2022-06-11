@@ -29,6 +29,10 @@ Tablero::Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMaxim
 			}
 		}
 	}
+	
+	this->cantidadTierra = 0;
+	this->cantidadAgua = 0;
+	this->cantidadAire = 0; //Pone en 0 las cantidades
 }
 
 /**
