@@ -149,6 +149,31 @@ unsigned int Tablero::getZMaximo(){
 	return this->zMaximo;
 }
 
+/**
+ */
+bool Tablero::quedaTipoCasillaDisponible(TipoDeCasilla tipo){
+	bool estaDisponible = false;
+	
+	switch (tipo){
+		case TIERRA: 
+			if(this->cantidadTierra > 0){
+				estaDisponible = true;
+			} 
+		break;
+		case AGUA: 
+			if(this->cantidadAgua > 0){
+				estaDisponible = true;
+			} 
+		break;
+		case AIRE: 
+			if(this->cantidadAire > 0){
+				estaDisponible = true;
+			} 
+		break;
+	}
+	return estaDisponible;
+}
+
 
 /**
  */
