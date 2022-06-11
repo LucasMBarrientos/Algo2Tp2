@@ -174,6 +174,25 @@ bool Tablero::quedaTipoCasillaDisponible(TipoDeCasilla tipo){
 	return estaDisponible;
 }
 
+/**
+ */
+void aumentarCantidadTipoCasilla(TipoDeCasilla tipo){
+	switch (tipo){
+		case TIERRA: this->cantidadTierra++ ;break;
+		case AGUA: this->cantidadAgua++ ;break;
+		case AIRE: this->cantidadAire++ ;break;
+	}
+}
+
+/**
+ */
+void reducirCantidadTipoCasilla(TipoDeCasilla tipo){
+	switch (tipo){
+		case TIERRA: this->cantidadTierra-- ;break;
+		case AGUA: this->cantidadAgua-- ;break;
+		case AIRE: this->cantidadAire-- ;break;
+	}
+}
 
 /**
  */
