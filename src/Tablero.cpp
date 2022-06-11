@@ -176,7 +176,7 @@ bool Tablero::quedaTipoCasillaDisponible(TipoDeCasilla tipo){
 
 /**
  */
-void aumentarCantidadTipoCasilla(TipoDeCasilla tipo){
+void Tablero::aumentarCantidadTipoCasilla(TipoDeCasilla tipo){
 	switch (tipo){
 		case TIERRA: this->cantidadTierra++ ;break;
 		case AGUA: this->cantidadAgua++ ;break;
@@ -186,7 +186,7 @@ void aumentarCantidadTipoCasilla(TipoDeCasilla tipo){
 
 /**
  */
-void reducirCantidadTipoCasilla(TipoDeCasilla tipo){
+void Tablero::reducirCantidadTipoCasilla(TipoDeCasilla tipo){
 	switch (tipo){
 		case TIERRA: this->cantidadTierra-- ;break;
 		case AGUA: this->cantidadAgua-- ;break;
