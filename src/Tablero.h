@@ -18,6 +18,9 @@ class Tablero {
 		unsigned int xMaximo;
 		unsigned int yMaximo;
 		unsigned int zMaximo;
+		unsigned int cantidadTierra;
+		unsigned int cantidadAgua;
+		unsigned int cantidadAire;
 
 	public:
 		/**
@@ -69,7 +72,12 @@ class Tablero {
 		 * pos: Devuelve la coordenada Z máxima del tablero.
 		 */
 		unsigned int getZMaximo();
-
+	
+		/**
+		 * pre: Recibe un TipoDeCasilla Valido.
+		 * pos: Devuelve Verdadero si queda disponible en el tablero al menos un tipo de casilla que fue enviada por parametro.
+		 */
+		bool quedaTipoCasillaDisponible(TipoDeCasilla tipo);
 
 		/**
 		 * pre: (x,y,z) debe pertenecer al tablero,
