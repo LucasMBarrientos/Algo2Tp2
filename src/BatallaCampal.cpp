@@ -447,12 +447,14 @@ void BatallaCampal::atacar(Casilla* casillaAtacada) {
 
 	case VACIA: {
 		casillaAtacada->inactivar();
+		this->tablero->reducirCantidadTipoCasilla(casillaAtacada->getTipo());
 		break;
 	}
 	case OCUPADA: {
 		recibirAtaque(casillaAtacada->getJugador(),
 				casillaAtacada->getFicha()->getTipo());
 		casillaAtacada->inactivar();
+		this->tablero->reducirCantidadTipoCasilla(casillaAtacada->getTipo());
 		break;
 	}
 	case INACTIVA: {

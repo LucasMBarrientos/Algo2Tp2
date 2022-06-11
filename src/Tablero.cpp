@@ -29,6 +29,10 @@ Tablero::Tablero(unsigned int xMaximo, unsigned int yMaximo, unsigned int zMaxim
 			}
 		}
 	}
+	
+	this->cantidadTierra = 0;
+	this->cantidadAgua = 0;
+	this->cantidadAire = 0; //Pone en 0 las cantidades
 }
 
 /**
@@ -149,6 +153,50 @@ unsigned int Tablero::getZMaximo(){
 	return this->zMaximo;
 }
 
+/**
+ */
+bool Tablero::quedaTipoCasillaDisponible(TipoDeCasilla tipo){
+	bool estaDisponible = false;
+	
+	switch (tipo){
+		case TIERRA: 
+			if(this->cantidadTierra > 0){
+				estaDisponible = true;
+			} 
+		break;
+		case AGUA: 
+			if(this->cantidadAgua > 0){
+				estaDisponible = true;
+			} 
+		break;
+		case AIRE: 
+			if(this->cantidadAire > 0){
+				estaDisponible = true;
+			} 
+		break;
+	}
+	return estaDisponible;
+}
+
+/**
+ */
+void Tablero::aumentarCantidadTipoCasilla(TipoDeCasilla tipo){
+	switch (tipo){
+		case TIERRA: this->cantidadTierra++ ;break;
+		case AGUA: this->cantidadAgua++ ;break;
+		case AIRE: this->cantidadAire++ ;break;
+	}
+}
+
+/**
+ */
+void Tablero::reducirCantidadTipoCasilla(TipoDeCasilla tipo){
+	switch (tipo){
+		case TIERRA: this->cantidadTierra-- ;break;
+		case AGUA: this->cantidadAgua-- ;break;
+		case AIRE: this->cantidadAire-- ;break;
+	}
+}
 
 /**
  */
